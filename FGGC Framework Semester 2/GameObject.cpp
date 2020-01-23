@@ -27,6 +27,9 @@ void GameObject::Update(float t)
 	{
 		XMStoreFloat4x4(&_world, this->GetWorldMatrix() * _parent->GetWorldMatrix());
 	}
+
+	if(_type.find("Cube") != std::string::npos)
+		Debug::Print(std::to_string(t) + "\n");
 }
 
 void GameObject::Draw(ID3D11DeviceContext * pImmediateContext)

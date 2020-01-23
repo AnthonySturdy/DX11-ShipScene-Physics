@@ -24,6 +24,7 @@
 #include "VertexTypes.h"
 */
 #include "GameObject.h"
+#include "Debug.h"
 
 using namespace DirectX;
 
@@ -64,6 +65,9 @@ struct ConstantBuffer
 	XMFLOAT3 EyePosW;
 	float HasTexture;
 };
+
+#define NUM_OF_CUBES 1
+#define FPS_60 1.0f/60.0f
 
 class Application
 {
