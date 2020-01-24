@@ -25,6 +25,7 @@
 */
 #include "GameObject.h"
 #include "Debug.h"
+#include "Transform.h"
 
 using namespace DirectX;
 
