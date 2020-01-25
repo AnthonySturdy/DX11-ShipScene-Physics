@@ -67,7 +67,7 @@ struct ConstantBuffer
 	float HasTexture;
 };
 
-#define NUM_OF_CUBES 1
+#define NUM_OF_CUBES 5
 #define FPS_60 1.0f/60.0f
 
 class Application
@@ -126,6 +126,9 @@ private:
 	ID3D11RasterizerState* CCWcullMode;
 	ID3D11RasterizerState* CWcullMode;
 
+
+	bool KeyOneIsPressed = false;
+
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
 	HRESULT InitDevice();
@@ -134,8 +137,6 @@ private:
 	HRESULT InitShadersAndInputLayout();
 	HRESULT InitVertexBuffer();
 	HRESULT InitIndexBuffer();
-
-	void moveForward(int objectNumber);
 
 public:
 	Application();

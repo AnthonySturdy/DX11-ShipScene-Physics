@@ -151,7 +151,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	for (auto i = 0; i < NUM_OF_CUBES; i++)
 	{
-		gameObject = new GameObject("Cube " + i, cubeGeometry, shinyMaterial);
+		gameObject = new GameObject("Cube " + std::to_string(i), cubeGeometry, shinyMaterial);
 		gameObject->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
 		gameObject->GetTransform()->SetPosition(-4.0f + (i * 2.0f), 0.5f, 10.0f);
 		gameObject->SetTextureRV(_pTextureRV);
@@ -646,13 +646,6 @@ void Application::Cleanup()
 	}
 }
 
-void Application::moveForward(int objectNumber)
-{
-	XMFLOAT3 position = _gameObjects[objectNumber]->GetTransform()->GetPosition();
-	position.z -= 0.1f;
-	_gameObjects[objectNumber]->GetTransform()->SetPosition(position);
-}
-
 void Application::Update()
 {
     // Update our time
@@ -669,12 +662,32 @@ void Application::Update()
 	if (deltaTime < FPS_60)
 		return;
 
-	Debug::Print("start: " + std::to_string(dwTimeStart) + " cur: " + std::to_string(dwTimeCur) + "\n");
-
-	// Move gameobject
-	if (GetAsyncKeyState('1'))
-	{
-		moveForward(1);
+	// Move gameobjects
+	if (GetAsyncKeyState('1')) {
+		GameObject* go = _gameObjects[1];
+		go->GetTransform()->SetPosition(
+			go->GetParticleModel()->MoveForward(
+				go->GetTransform()->GetPosition()));
+	} else if (GetAsyncKeyState('2')) {
+		GameObject* go = _gameObjects[2];
+		go->GetTransform()->SetPosition(
+			go->GetParticleModel()->MoveBackward(
+				go->GetTransform()->GetPosition()));
+	} else if (GetAsyncKeyState('3')) {
+		GameObject* go = _gameObjects[3];
+		go->GetTransform()->SetPosition(
+			go->GetParticleModel()->MoveLeft(
+				go->GetTransform()->GetPosition()));
+	} else if (GetAsyncKeyState('4')) {
+		GameObject* go = _gameObjects[4];
+		go->GetTransform()->SetPosition(
+			go->GetParticleModel()->MoveRight(
+				go->GetTransform()->GetPosition()));
+	} else if (GetAsyncKeyState('5')) {
+		GameObject* go = _gameObjects[5];
+		go->GetTransform()->SetPosition(
+			go->GetParticleModel()->MoveUp(
+				go->GetTransform()->GetPosition()));
 	}
 
 	// Update camera
@@ -740,7 +753,7 @@ void Application::Draw()
 	for (auto gameObject : _gameObjects)
 	{
 		// Get render material
-		Material material = gameObject->GetMaterial();
+		Material material = *gameObject->GetAppearance()->GetMaterial();
 
 		// Copy material to shader
 		cb.surface.AmbientMtrl = material.ambient;
