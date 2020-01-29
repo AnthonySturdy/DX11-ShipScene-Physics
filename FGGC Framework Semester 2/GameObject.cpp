@@ -9,6 +9,7 @@ GameObject::GameObject(string type, Mesh mesh, Material material) {
 	_appearance.SetMaterial(material);
 
 	_particleModel.SetVelocity(1.0f, 0.0f, 0.0f);
+	_particleModel.SetAcceleration(2.0f, 0.0f, 0.0f);
 }
 
 GameObject::~GameObject() {
@@ -17,8 +18,8 @@ GameObject::~GameObject() {
 void GameObject::Update(float t) {
 	_transform.Update(t);
 
-	if(_type == "Cube 0")
-		_transform.SetPosition(_particleModel.MoveConstVelocity(t, _transform.GetPosition()));
+	if (_type == "Cube 0")
+		_particleModel.MoveConstAcceleration(t, &_transform);
 
 	if (_parent != nullptr){
 		XMStoreFloat4x4(_transform.GetWorldFloat4X4(), this->_transform.GetWorldMatrix() * _parent->_transform.GetWorldMatrix());

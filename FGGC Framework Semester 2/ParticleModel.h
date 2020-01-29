@@ -1,14 +1,14 @@
 #pragma once
 #include <directxmath.h>
 #include <d3d11_1.h>
+#include "Transform.h"
 
 using namespace DirectX;
-
-//TODO: Implement Acceleration (Week 1, Tutorial 3)
 
 class ParticleModel {
 private:
 	XMFLOAT3 velocity;
+	XMFLOAT3 acceleration;
 
 public:
 	ParticleModel();
@@ -18,13 +18,18 @@ public:
 	void SetVelocity(XMFLOAT3 newVelocity) { velocity = newVelocity; }
 	void SetVelocity(float x, float y, float z) { velocity.x = x; velocity.y = y; velocity.z = z; }
 
-	XMFLOAT3 MoveConstVelocity(const float deltaTime, XMFLOAT3 curPosition);
-	XMFLOAT3 MoveForward(XMFLOAT3 curPosition);
-	XMFLOAT3 MoveLeft(XMFLOAT3 curPosition);
-	XMFLOAT3 MoveRight(XMFLOAT3 curPosition);
-	XMFLOAT3 MoveBackward(XMFLOAT3 curPosition);
-	XMFLOAT3 MoveUp(XMFLOAT3 curPosition);
-	XMFLOAT3 MoveDown(XMFLOAT3 curPosition);
+	XMFLOAT3 GetAcceleration() { return acceleration; }
+	void SetAcceleration(XMFLOAT3 newAcceleration) { acceleration = newAcceleration; }
+	void SetAcceleration(float x, float y, float z) { acceleration.x = x; acceleration.y = y; acceleration.z = z; }
+
+	void MoveConstVelocity(const float deltaTime, Transform* curPosition);
+	void MoveConstAcceleration(const float deltaTime, Transform* curPosition);
+	void MoveForward(Transform* curPosition);
+	void MoveBackward(Transform* curPosition);
+	void MoveLeft(Transform* curPosition);
+	void MoveRight(Transform* curPosition);
+	void MoveUp(Transform* curPosition);
+	void MoveDown(Transform* curPosition);
 
 	void Update(float t);
 };

@@ -8,44 +8,52 @@ ParticleModel::ParticleModel(XMFLOAT3 initVelocity) {
 	velocity = initVelocity;
 }
 
-XMFLOAT3 ParticleModel::MoveConstVelocity(const float deltaTime, XMFLOAT3 curPosition) {
-	return XMFLOAT3(curPosition.x + (velocity.x * deltaTime), curPosition.y + (velocity.y * deltaTime), curPosition.z + (velocity.z * deltaTime));
+void ParticleModel::MoveConstVelocity(const float deltaTime, Transform* curPosition) {
+	curPosition->SetPosition(XMFLOAT3(curPosition->GetPosition().x + (velocity.x * deltaTime), curPosition->GetPosition().y + (velocity.y * deltaTime), curPosition->GetPosition().z + (velocity.z * deltaTime)));
 }
 
-XMFLOAT3 ParticleModel::MoveForward(XMFLOAT3 curPosition) {
-	XMFLOAT3 returnVar = curPosition;
-	returnVar.z -= 0.1f;
-	return returnVar;
+void ParticleModel::MoveConstAcceleration(const float deltaTime, Transform* curPosition) {
+	curPosition->SetPosition(XMFLOAT3(curPosition->GetPosition().x + velocity.x * deltaTime + 0.5f * acceleration.x * 0.5 * 0.5,
+									curPosition->GetPosition().y + velocity.y * deltaTime + 0.5f * acceleration.y * 0.5 * 0.5,
+									curPosition->GetPosition().z + velocity.z * deltaTime + 0.5f * acceleration.z * 0.5 * 0.5));
+
+	velocity = XMFLOAT3(velocity.x + acceleration.x * deltaTime, velocity.y + acceleration.y * deltaTime, velocity.z + acceleration.z * deltaTime);
 }
 
-XMFLOAT3 ParticleModel::MoveLeft(XMFLOAT3 curPosition) {
-	XMFLOAT3 returnVar = curPosition;
-	returnVar.x -= 0.1f;
-	return returnVar;
+void ParticleModel::MoveForward(Transform* curPosition) {
+	XMFLOAT3 p = curPosition->GetPosition();
+	p.z += 0.1f;
+	curPosition->SetPosition(p);
 }
 
-XMFLOAT3 ParticleModel::MoveRight(XMFLOAT3 curPosition) {
-	XMFLOAT3 returnVar = curPosition;
-	returnVar.x += 0.1f;
-	return returnVar;
+void ParticleModel::MoveBackward(Transform* curPosition) {
+	XMFLOAT3 p = curPosition->GetPosition();
+	p.z -= 0.1f;
+	curPosition->SetPosition(p);
 }
 
-XMFLOAT3 ParticleModel::MoveBackward(XMFLOAT3 curPosition) {
-	XMFLOAT3 returnVar = curPosition;
-	returnVar.z += 0.1f;
-	return returnVar;
+void ParticleModel::MoveLeft(Transform* curPosition) {
+	XMFLOAT3 p = curPosition->GetPosition();
+	p.x -= 0.1f;
+	curPosition->SetPosition(p);
 }
 
-XMFLOAT3 ParticleModel::MoveUp(XMFLOAT3 curPosition) {
-	XMFLOAT3 returnVar = curPosition;
-	returnVar.y += 0.1f;
-	return returnVar;
+void ParticleModel::MoveRight(Transform* curPosition) {
+	XMFLOAT3 p = curPosition->GetPosition();
+	p.x += 0.1f;
+	curPosition->SetPosition(p);
 }
 
-XMFLOAT3 ParticleModel::MoveDown(XMFLOAT3 curPosition) {
-	XMFLOAT3 returnVar = curPosition;
-	returnVar.y -= 0.1f;
-	return returnVar;
+void ParticleModel::MoveUp(Transform* curPosition) {
+	XMFLOAT3 p = curPosition->GetPosition();
+	p.y += 0.1f;
+	curPosition->SetPosition(p);
+}
+
+void ParticleModel::MoveDown(Transform* curPosition) {
+	XMFLOAT3 p = curPosition->GetPosition();
+	p.y -= 0.1f;
+	curPosition->SetPosition(p);
 }
 
 void ParticleModel::Update(float t) {

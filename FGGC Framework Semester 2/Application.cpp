@@ -665,29 +665,19 @@ void Application::Update()
 	// Move gameobjects
 	if (GetAsyncKeyState('1')) {
 		GameObject* go = _gameObjects[1];
-		go->GetTransform()->SetPosition(
-			go->GetParticleModel()->MoveForward(
-				go->GetTransform()->GetPosition()));
+		go->GetParticleModel()->MoveForward(go->GetTransform());
 	} else if (GetAsyncKeyState('2')) {
 		GameObject* go = _gameObjects[2];
-		go->GetTransform()->SetPosition(
-			go->GetParticleModel()->MoveBackward(
-				go->GetTransform()->GetPosition()));
+		go->GetParticleModel()->MoveBackward(go->GetTransform());
 	} else if (GetAsyncKeyState('3')) {
 		GameObject* go = _gameObjects[3];
-		go->GetTransform()->SetPosition(
-			go->GetParticleModel()->MoveLeft(
-				go->GetTransform()->GetPosition()));
+		go->GetParticleModel()->MoveLeft(go->GetTransform());
 	} else if (GetAsyncKeyState('4')) {
 		GameObject* go = _gameObjects[4];
-		go->GetTransform()->SetPosition(
-			go->GetParticleModel()->MoveRight(
-				go->GetTransform()->GetPosition()));
+		go->GetParticleModel()->MoveRight(go->GetTransform());
 	} else if (GetAsyncKeyState('5')) {
 		GameObject* go = _gameObjects[5];
-		go->GetTransform()->SetPosition(
-			go->GetParticleModel()->MoveUp(
-				go->GetTransform()->GetPosition()));
+		go->GetParticleModel()->MoveUp(go->GetTransform());
 	}
 
 	// Update camera
