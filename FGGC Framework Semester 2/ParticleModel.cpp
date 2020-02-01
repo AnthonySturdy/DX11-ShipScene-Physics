@@ -2,10 +2,12 @@
 
 ParticleModel::ParticleModel() {
 	velocity = XMFLOAT3();
+	acceleration = XMFLOAT3();
 }
 
-ParticleModel::ParticleModel(XMFLOAT3 initVelocity) {
+ParticleModel::ParticleModel(XMFLOAT3 initVelocity, XMFLOAT3 initAcceleration) {
 	velocity = initVelocity;
+	acceleration = initAcceleration;
 }
 
 void ParticleModel::MoveConstVelocity(const float deltaTime, Transform* curPosition) {

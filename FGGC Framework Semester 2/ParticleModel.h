@@ -12,7 +12,7 @@ private:
 
 public:
 	ParticleModel();
-	ParticleModel(XMFLOAT3 initVelocity);
+	ParticleModel(XMFLOAT3 initVelocity, XMFLOAT3 initAcceleration);
 
 	XMFLOAT3 GetVelocity() { return velocity; }
 	void SetVelocity(XMFLOAT3 newVelocity) { velocity = newVelocity; }
@@ -32,4 +32,6 @@ public:
 	void MoveDown(Transform* curPosition);
 
 	void Update(float t);
+	void UpdateNetForce();
+	void UpdateAcceleration();
 };
