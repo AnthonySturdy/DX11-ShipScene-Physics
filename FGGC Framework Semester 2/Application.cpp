@@ -153,7 +153,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	{
 		gameObject = new GameObject("Cube " + std::to_string(i), cubeGeometry, shinyMaterial);
 		gameObject->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
-		gameObject->GetTransform()->SetPosition(-4.0f + (i * 2.0f), 0.5f, 10.0f);
+		gameObject->GetTransform()->SetPosition(-4.0f + (i * 2.0f), i+0.5f, 10.0f);
 		gameObject->SetTextureRV(_pTextureRV);
 
 		_gameObjects.push_back(gameObject);
@@ -662,7 +662,17 @@ void Application::Update()
 	if (deltaTime < FPS_60)
 		return;
 
-	// Move gameobjects
+	// Move gameobjects 
+	if (GetAsyncKeyState('1')) {
+		_gameObjects[1]->GetParticleModel()->SetThrust(XMFLOAT3(-5.0f, 0.0f, 0.0f));
+	} 
+	if (GetAsyncKeyState('3')) {
+		_gameObjects[1]->GetParticleModel()->SetThrust(XMFLOAT3(5.0f, 0.0f, 0.0f));
+	}
+	if (GetAsyncKeyState('2')) {
+		_gameObjects[1]->GetParticleModel()->SetThrust(XMFLOAT3(0.0f, 0.0f, 0.0f));
+	}
+	/*
 	if (GetAsyncKeyState('1')) {
 		GameObject* go = _gameObjects[1];
 		go->GetParticleModel()->MoveForward(go->GetTransform());
@@ -679,6 +689,7 @@ void Application::Update()
 		GameObject* go = _gameObjects[5];
 		go->GetParticleModel()->MoveUp(go->GetTransform());
 	}
+	*/
 
 	// Update camera
 	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);

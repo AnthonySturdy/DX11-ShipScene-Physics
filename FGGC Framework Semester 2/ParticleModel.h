@@ -2,13 +2,25 @@
 #include <directxmath.h>
 #include <d3d11_1.h>
 #include "Transform.h"
+#include "Debug.h"
 
 using namespace DirectX;
 
+struct Forces {
+	XMFLOAT3 thrust;
+	XMFLOAT3 friction;
+};
+
 class ParticleModel {
 private:
-	XMFLOAT3 velocity;
-	XMFLOAT3 acceleration;
+	XMFLOAT3 velocity;		//Velocity is the final direction which is applied to the position
+	XMFLOAT3 acceleration;	//Acceleration is the forces being applied, then mass applied to that
+	XMFLOAT3 netForce;		//Net force is all forces being applied to object
+
+	Transform* transform;
+
+	float mass;
+	Forces forces;
 
 public:
 	ParticleModel();
@@ -22,14 +34,22 @@ public:
 	void SetAcceleration(XMFLOAT3 newAcceleration) { acceleration = newAcceleration; }
 	void SetAcceleration(float x, float y, float z) { acceleration.x = x; acceleration.y = y; acceleration.z = z; }
 
-	void MoveConstVelocity(const float deltaTime, Transform* curPosition);
-	void MoveConstAcceleration(const float deltaTime, Transform* curPosition);
-	void MoveForward(Transform* curPosition);
-	void MoveBackward(Transform* curPosition);
-	void MoveLeft(Transform* curPosition);
-	void MoveRight(Transform* curPosition);
-	void MoveUp(Transform* curPosition);
-	void MoveDown(Transform* curPosition);
+	Transform* GetTransform() { return transform; }
+	void SetTransform(Transform* t) { transform = t; }
+
+	int GetMass() { return mass; }
+	void SetMass(int m) { mass = m; }
+	void SetThrust(XMFLOAT3 t) { forces.thrust = t; }
+	void SetFriction(XMFLOAT3 f) { forces.friction = f; }
+
+	void MoveConstVelocity(const float deltaTime);
+	void MoveConstAcceleration(const float deltaTime);
+	void MoveForward();
+	void MoveBackward();
+	void MoveLeft();
+	void MoveRight();
+	void MoveUp();
+	void MoveDown();
 
 	void Update(float t);
 	void UpdateNetForce();

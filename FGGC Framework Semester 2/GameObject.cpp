@@ -8,8 +8,7 @@ GameObject::GameObject(string type, Mesh mesh, Material material) {
 	_appearance.SetMesh(mesh);
 	_appearance.SetMaterial(material);
 
-	_particleModel.SetVelocity(0.0f, 0.0f, 0.0f);
-	_particleModel.SetAcceleration(0.0f, 0.0f, 0.0f);
+	_particleModel.SetTransform(&_transform);
 }
 
 GameObject::~GameObject() {
@@ -18,15 +17,15 @@ GameObject::~GameObject() {
 void GameObject::Update(float t) {
 	_transform.Update(t);
 
-	//if (_type == "Cube 0")
-		//_particleModel.MoveConstAcceleration(t, &_transform);
+	if (_type == "Cube 0") {
+		_particleModel.Update(t);
+		_particleModel.SetFriction(XMFLOAT3(0.91f, 0.91f, 0.91f));
+	}
+
 
 	if (_parent != nullptr){
 		XMStoreFloat4x4(_transform.GetWorldFloat4X4(), this->_transform.GetWorldMatrix() * _parent->_transform.GetWorldMatrix());
 	}
-
-	if(_type.find("Cube") != std::string::npos)
-		Debug::Print(std::to_string(t) + "\n");
 }
 
 void GameObject::Draw(ID3D11DeviceContext * pImmediateContext) {

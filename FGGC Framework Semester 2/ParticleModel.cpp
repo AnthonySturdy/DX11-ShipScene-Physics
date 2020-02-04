@@ -3,61 +3,73 @@
 ParticleModel::ParticleModel() {
 	velocity = XMFLOAT3();
 	acceleration = XMFLOAT3();
+	netForce = XMFLOAT3();
+
+	transform = nullptr;
+
+	mass = 1.0f;
+	forces.thrust = XMFLOAT3();
+	forces.friction = XMFLOAT3(1, 1, 1);
 }
 
 ParticleModel::ParticleModel(XMFLOAT3 initVelocity, XMFLOAT3 initAcceleration) {
 	velocity = initVelocity;
 	acceleration = initAcceleration;
+	netForce = XMFLOAT3();
+
+	transform = nullptr;
+
+	mass = 1.0f;
+	forces.thrust = XMFLOAT3();
+	forces.friction = XMFLOAT3(1, 1, 1);
 }
 
-void ParticleModel::MoveConstVelocity(const float deltaTime, Transform* curPosition) {
-	curPosition->SetPosition(XMFLOAT3(curPosition->GetPosition().x + (velocity.x * deltaTime), curPosition->GetPosition().y + (velocity.y * deltaTime), curPosition->GetPosition().z + (velocity.z * deltaTime)));
+void ParticleModel::MoveConstVelocity(const float deltaTime) {
+	transform->SetPosition(XMFLOAT3(transform->GetPosition().x + (velocity.x * deltaTime), transform->GetPosition().y + (velocity.y * deltaTime), transform->GetPosition().z + (velocity.z * deltaTime)));
 }
 
-void ParticleModel::MoveConstAcceleration(const float deltaTime, Transform* curPosition) {
-	curPosition->SetPosition(XMFLOAT3(curPosition->GetPosition().x + velocity.x * deltaTime + 0.5f * acceleration.x * 0.5 * 0.5,
-									curPosition->GetPosition().y + velocity.y * deltaTime + 0.5f * acceleration.y * 0.5 * 0.5,
-									curPosition->GetPosition().z + velocity.z * deltaTime + 0.5f * acceleration.z * 0.5 * 0.5));
+void ParticleModel::MoveConstAcceleration(const float deltaTime) {
+	//Update position
+	transform->SetPosition(XMFLOAT3(transform->GetPosition().x + (velocity.x * deltaTime + 0.5f * acceleration.x * deltaTime * deltaTime), 
+									transform->GetPosition().y + (velocity.y * deltaTime + 0.5f * acceleration.y * deltaTime * deltaTime), 
+									transform->GetPosition().z + (velocity.z * deltaTime + 0.5f * acceleration.z * deltaTime * deltaTime)));
 
-	velocity = XMFLOAT3(velocity.x + acceleration.x * deltaTime, velocity.y + acceleration.y * deltaTime, velocity.z + acceleration.z * deltaTime);
-}
+	//Apply acceleration to velocity
+	velocity = XMFLOAT3(velocity.x + (acceleration.x * deltaTime), velocity.y + (acceleration.y * deltaTime), velocity.z + (acceleration.z * deltaTime));
 
-void ParticleModel::MoveForward(Transform* curPosition) {
-	XMFLOAT3 p = curPosition->GetPosition();
-	p.z += 0.1f;
-	curPosition->SetPosition(p);
-}
-
-void ParticleModel::MoveBackward(Transform* curPosition) {
-	XMFLOAT3 p = curPosition->GetPosition();
-	p.z -= 0.1f;
-	curPosition->SetPosition(p);
-}
-
-void ParticleModel::MoveLeft(Transform* curPosition) {
-	XMFLOAT3 p = curPosition->GetPosition();
-	p.x -= 0.1f;
-	curPosition->SetPosition(p);
-}
-
-void ParticleModel::MoveRight(Transform* curPosition) {
-	XMFLOAT3 p = curPosition->GetPosition();
-	p.x += 0.1f;
-	curPosition->SetPosition(p);
-}
-
-void ParticleModel::MoveUp(Transform* curPosition) {
-	XMFLOAT3 p = curPosition->GetPosition();
-	p.y += 0.1f;
-	curPosition->SetPosition(p);
-}
-
-void ParticleModel::MoveDown(Transform* curPosition) {
-	XMFLOAT3 p = curPosition->GetPosition();
-	p.y -= 0.1f;
-	curPosition->SetPosition(p);
+	velocity.x *= forces.friction.x;
+	velocity.y *= forces.friction.y;
+	velocity.z *= forces.friction.z;
 }
 
 void ParticleModel::Update(float t) {
+	UpdateNetForce();
+	UpdateAcceleration();
+	MoveConstAcceleration(t);
 
+	Debug::Print("\n");
+	Debug::Print("Pos: " + std::to_string(transform->GetPosition().x) + ", " + std::to_string(transform->GetPosition().y) + ", " + std::to_string(transform->GetPosition().z) + "\n");
+	Debug::Print("Net: " + std::to_string(netForce.x) + ", " + std::to_string(netForce.y) + ", " + std::to_string(netForce.z) + "\n");
+	Debug::Print("Acc: " + std::to_string(acceleration.x) + ", " + std::to_string(acceleration.y) + ", " + std::to_string(acceleration.z) + "\n");
+	Debug::Print("Vel: " + std::to_string(velocity.x) + ", " + std::to_string(velocity.y) + ", " + std::to_string(velocity.z) + "\n");
+	Debug::Print("Thr: " + std::to_string(forces.thrust.x) + ", " + std::to_string(forces.thrust.y) + ", " + std::to_string(forces.thrust.z) + "\n");
+	Debug::Print("Fri: " + std::to_string(forces.friction.x) + ", " + std::to_string(forces.friction.y) + ", " + std::to_string(forces.friction.z) + "\n");
+}
+
+void ParticleModel::UpdateNetForce() {
+	//Add thrust
+	netForce.x += forces.thrust.x;
+	netForce.y += forces.thrust.y;
+	netForce.z += forces.thrust.z;
+
+	//Multiply by friction (1 = no friction, 0 = infinity friction)
+	netForce.x *= forces.friction.x;
+	netForce.y *= forces.friction.y;
+	netForce.z *= forces.friction.z;
+}
+
+void ParticleModel::UpdateAcceleration() {
+	acceleration = XMFLOAT3(netForce.x / mass, 
+							netForce.y / mass,
+							netForce.z / mass);
 }
