@@ -15,6 +15,9 @@ GameObject::~GameObject() {
 }
 
 void GameObject::Update(float t) {
+	if (!isActive)
+		return;
+
 	_transform.Update(t);
 
 	if (_type == "Cube 0") {
@@ -28,6 +31,8 @@ void GameObject::Update(float t) {
 }
 
 void GameObject::Draw(ID3D11DeviceContext * pImmediateContext) {
+	if (!isActive)
+		return;
 	// NOTE: We are assuming that the constant buffers and all other draw setup has already taken place
 
 	// Set vertex and index buffers

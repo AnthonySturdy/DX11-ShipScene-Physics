@@ -19,6 +19,8 @@ public:
 	~GameObject();
 
 	string GetType() const { return _type; }
+	bool GetIsActive() { return isActive; }
+	void SetIsActive(bool active) { isActive = active; }
 
 	Transform* GetTransform() { return &_transform; }
 	Appearance* GetAppearance() { return &_appearance; }
@@ -39,6 +41,7 @@ private:
 	ParticleModel _particleModel;
 
 	string _type;
+	bool isActive = true;
 
 	ID3D11ShaderResourceView * _textureRV;
 

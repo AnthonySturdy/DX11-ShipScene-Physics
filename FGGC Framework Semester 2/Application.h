@@ -8,6 +8,7 @@
 #include "DDSTextureLoader.h"
 #include "resource.h"
 #include "Camera.h"
+#include "ParticleSystem.h"
 
 #include <vector>
 /*
@@ -105,6 +106,8 @@ private:
 	Light basicLight;
 
 	vector<GameObject *> _gameObjects;
+
+	ParticleSystem* particleSystem;
 
 	Camera * _camera;
 	float _cameraOrbitRadius = 7.0f;

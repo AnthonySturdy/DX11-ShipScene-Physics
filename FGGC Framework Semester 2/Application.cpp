@@ -159,6 +159,13 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		_gameObjects.push_back(gameObject);
 	}
 
+	ParticleInfo info;
+	info.friction = XMFLOAT3(0.98f, 0.98f, 0.98f);
+	info.lifeTime = 2.0f;
+	info.position = XMFLOAT3();
+	info.thrust = XMFLOAT3(0.0f, 0.4f, 0.0f);
+	particleSystem = new ParticleSystem(gameObject, info);
+
 	return S_OK;
 }
 
@@ -671,6 +678,9 @@ void Application::Update()
 	}
 	if (GetAsyncKeyState('2')) {
 		_gameObjects[1]->GetParticleModel()->SetThrust(XMFLOAT3(0.0f, 0.0f, 0.0f));
+	}
+	if (GetAsyncKeyState('9')) {
+		particleSystem->Emit();
 	}
 	/*
 	if (GetAsyncKeyState('1')) {
