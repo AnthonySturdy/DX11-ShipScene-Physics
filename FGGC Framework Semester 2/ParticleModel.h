@@ -44,12 +44,6 @@ public:
 
 	void MoveConstVelocity(const float deltaTime);
 	void MoveConstAcceleration(const float deltaTime);
-	void MoveForward();
-	void MoveBackward();
-	void MoveLeft();
-	void MoveRight();
-	void MoveUp();
-	void MoveDown();
 
 	void Update(float t);
 	void UpdateNetForce();
