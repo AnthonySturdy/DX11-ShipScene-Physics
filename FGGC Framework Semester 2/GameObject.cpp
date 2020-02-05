@@ -22,7 +22,6 @@ void GameObject::Update(float t) {
 		_particleModel.SetFriction(XMFLOAT3(0.91f, 0.91f, 0.91f));
 	}
 
-
 	if (_parent != nullptr){
 		XMStoreFloat4x4(_transform.GetWorldFloat4X4(), this->_transform.GetWorldMatrix() * _parent->_transform.GetWorldMatrix());
 	}
