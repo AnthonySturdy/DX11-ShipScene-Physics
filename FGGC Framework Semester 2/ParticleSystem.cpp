@@ -2,10 +2,9 @@
 
 ParticleSystem::ParticleSystem(GameObject* particleObject, ParticleInfo info) {
 	for (int i = 0; i < PARTICLE_AMOUNT; i++) {
-		particles.push_back(std::make_pair((GameObject*)malloc(sizeof(particleObject)), info));
-		//std::copy(particleObject, particleObject + sizeof(particleObject), particles[i].first);
-
-		std::memcpy(particles[i].first, particleObject, sizeof(particleObject));	//I THINK THE PROBLEM IS WITH THIS FUCKING C++ AHH
+		particles.push_back(std::make_pair(new GameObject("Particle " + std::to_string(i), *particleObject->GetAppearance()->GetMesh(), *particleObject->GetAppearance()->GetMaterial()), info));
+		particles[i].first->GetTransform()->SetPosition(info.position);
+		particles[i].first->GetTransform()->SetScale(XMFLOAT3(1, 1, 1));
 	}
 }
 
@@ -16,13 +15,15 @@ ParticleSystem::~ParticleSystem() {
 }
 
 void ParticleSystem::Update(float t) {
+	int x = 0;
+
 	for (auto p : particles) {
 		p.first->Update(t);	//Update particle gameobject
 
 		//Subtract time from particle life, deactivate if below 0
 		p.second.lifeTimeRemaining -= t;
 		if (p.second.lifeTimeRemaining <= 0.0f) {
-			p.first->SetIsActive(false);
+			//p.first->SetIsActive(false);
 		}
 	}
 }
@@ -39,7 +40,6 @@ void ParticleSystem::Emit() {
 
 void ParticleSystem::Emit(ParticleInfo info) {
 	//Set to active and set lifetime
-	particles[curParticleIndex].first->SetIsActive(true);
 	particles[curParticleIndex].second.lifeTimeRemaining = particles[curParticleIndex].second.lifeTime;
 
 	//Set object physics properties
@@ -47,6 +47,10 @@ void ParticleSystem::Emit(ParticleInfo info) {
 	particles[curParticleIndex].first->GetParticleModel()->SetFriction(particles[curParticleIndex].second.friction);
 
 	particles[curParticleIndex].first->GetTransform()->SetPosition(info.position);
+
+	particles[curParticleIndex].first->SetIsActive(true);
+
+	Debug::Print(std::to_string(curParticleIndex) + "\n");
 
 	//Increase particle index, if more than max particles, reset to 0
 	curParticleIndex++;

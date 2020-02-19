@@ -20,6 +20,8 @@ void GameObject::Update(float t) {
 
 	_transform.Update(t);
 
+	_particleModel.Update(t);
+
 	if (_type == "Cube 0") {
 		_particleModel.Update(t);
 		_particleModel.SetFriction(XMFLOAT3(0.91f, 0.91f, 0.91f));

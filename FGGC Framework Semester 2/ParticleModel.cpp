@@ -47,6 +47,7 @@ void ParticleModel::Update(float t) {
 	UpdateAcceleration();
 	MoveConstAcceleration(t);
 
+#if 0
 	Debug::Print("\n");
 	Debug::Print("Pos: " + std::to_string(transform->GetPosition().x) + ", " + std::to_string(transform->GetPosition().y) + ", " + std::to_string(transform->GetPosition().z) + "\n");
 	Debug::Print("Net: " + std::to_string(netForce.x) + ", " + std::to_string(netForce.y) + ", " + std::to_string(netForce.z) + "\n");
@@ -54,6 +55,7 @@ void ParticleModel::Update(float t) {
 	Debug::Print("Vel: " + std::to_string(velocity.x) + ", " + std::to_string(velocity.y) + ", " + std::to_string(velocity.z) + "\n");
 	Debug::Print("Thr: " + std::to_string(forces.thrust.x) + ", " + std::to_string(forces.thrust.y) + ", " + std::to_string(forces.thrust.z) + "\n");
 	Debug::Print("Fri: " + std::to_string(forces.friction.x) + ", " + std::to_string(forces.friction.y) + ", " + std::to_string(forces.friction.z) + "\n");
+#endif
 }
 
 void ParticleModel::UpdateNetForce() {

@@ -3,6 +3,7 @@
 #include <directxmath.h>
 #include <d3d11_1.h>
 #include "GameObject.h"
+#include "Debug.h"
 
 #define PARTICLE_AMOUNT 200
 
