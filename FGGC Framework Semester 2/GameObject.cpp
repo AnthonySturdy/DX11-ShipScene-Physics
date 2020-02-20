@@ -19,11 +19,9 @@ void GameObject::Update(float t) {
 		return;
 
 	_transform.Update(t);
-
-	_particleModel.Update(t);
+	if(_type != "Floor") _particleModel.Update(t);
 
 	if (_type == "Cube 0") {
-		_particleModel.Update(t);
 		_particleModel.SetFriction(XMFLOAT3(0.91f, 0.91f, 0.91f));
 	}
 
@@ -32,7 +30,7 @@ void GameObject::Update(float t) {
 	}
 }
 
-void GameObject::Draw(ID3D11DeviceContext * pImmediateContext) {
+void GameObject::Draw(ID3D11DeviceContext* pImmediateContext) {
 	if (!isActive)
 		return;
 	// NOTE: We are assuming that the constant buffers and all other draw setup has already taken place

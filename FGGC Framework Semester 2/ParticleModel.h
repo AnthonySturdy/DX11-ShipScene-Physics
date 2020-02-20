@@ -9,6 +9,7 @@ using namespace DirectX;
 struct Forces {
 	XMFLOAT3 thrust;
 	XMFLOAT3 friction;
+	XMFLOAT3 gravity;
 };
 
 class ParticleModel {
@@ -34,6 +35,10 @@ public:
 	void SetAcceleration(XMFLOAT3 newAcceleration) { acceleration = newAcceleration; }
 	void SetAcceleration(float x, float y, float z) { acceleration.x = x; acceleration.y = y; acceleration.z = z; }
 
+	XMFLOAT3 GetNetforce() { return netForce; }
+	void SetNetforce(XMFLOAT3 newNetForce) { netForce = newNetForce; }
+	void SetNetforce(float x, float y, float z) { netForce.x = x; netForce.y = y; netForce.z = z; }
+
 	Transform* GetTransform() { return transform; }
 	void SetTransform(Transform* t) { transform = t; }
 
@@ -41,6 +46,7 @@ public:
 	void SetMass(int m) { mass = m; }
 	void SetThrust(XMFLOAT3 t) { forces.thrust = t; }
 	void SetFriction(XMFLOAT3 f) { forces.friction = f; }
+	void SetGravity(XMFLOAT3 g) { forces.gravity = g; }
 
 	void MoveConstVelocity(const float deltaTime);
 	void MoveConstAcceleration(const float deltaTime);

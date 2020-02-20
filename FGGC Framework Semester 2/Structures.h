@@ -19,3 +19,41 @@ struct Material {
 	XMFLOAT4 specular;
 	float specularPower;
 };
+
+struct SimpleVertex
+{
+	XMFLOAT3 PosL;
+	XMFLOAT3 NormL;
+	XMFLOAT2 Tex;
+};
+
+struct SurfaceInfo
+{
+	XMFLOAT4 AmbientMtrl;
+	XMFLOAT4 DiffuseMtrl;
+	XMFLOAT4 SpecularMtrl;
+};
+
+struct Light
+{
+	XMFLOAT4 AmbientLight;
+	XMFLOAT4 DiffuseLight;
+	XMFLOAT4 SpecularLight;
+
+	float SpecularPower;
+	XMFLOAT3 LightVecW;
+};
+
+struct ConstantBuffer
+{
+	XMMATRIX World;
+	XMMATRIX View;
+	XMMATRIX Projection;
+
+	SurfaceInfo surface;
+
+	Light light;
+
+	XMFLOAT3 EyePosW;
+	float HasTexture;
+};

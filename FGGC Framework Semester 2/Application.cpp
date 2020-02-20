@@ -160,11 +160,14 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	}
 
 	ParticleInfo info;
-	info.friction = XMFLOAT3(0.98f, 0.98f, 0.98f);
 	info.lifeTime = 2.0f;
-	info.position = XMFLOAT3(0, 2, 7);
-	info.thrust = XMFLOAT3(0.0f, 0.4f, 0.0f);
-	particleSystem = new ParticleSystem(gameObject, info);
+	info.position = XMFLOAT3(0, 1.5f, 0);
+	info.scale = XMFLOAT3(.5f, .5f, .5f);
+	info.thrust = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	info.friction = XMFLOAT3(0.93f, 0.99f, 0.93f);
+	info.gravity = XMFLOAT3(0, -9.8f, 0);
+	info.initVelocity = XMFLOAT3(0, 25, 0);
+	particleSystem = new ParticleSystem(gameObject, info, 100);
 
 	return S_OK;
 }
@@ -795,7 +798,7 @@ void Application::Draw()
 		gameObject->Draw(_pImmediateContext);
 	}
 
-	particleSystem->Draw(_pImmediateContext);
+	particleSystem->Draw(_pImmediateContext, _pConstantBuffer, cb);
 
     //
     // Present our back buffer to our front buffer

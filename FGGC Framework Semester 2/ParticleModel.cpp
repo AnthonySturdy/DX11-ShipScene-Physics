@@ -9,6 +9,7 @@ ParticleModel::ParticleModel() {
 
 	mass = 1.0f;
 	forces.thrust = XMFLOAT3();
+	forces.gravity = XMFLOAT3();
 	forces.friction = XMFLOAT3(1, 1, 1);
 }
 
@@ -22,6 +23,7 @@ ParticleModel::ParticleModel(XMFLOAT3 initVelocity, XMFLOAT3 initAcceleration) {
 	mass = 1.0f;
 	forces.thrust = XMFLOAT3();
 	forces.friction = XMFLOAT3(1, 1, 1);
+	forces.gravity = XMFLOAT3();
 }
 
 void ParticleModel::MoveConstVelocity(const float deltaTime) {
@@ -47,6 +49,9 @@ void ParticleModel::Update(float t) {
 	UpdateAcceleration();
 	MoveConstAcceleration(t);
 
+	if (transform->GetPosition().y <= 0.5f)
+		transform->SetPosition(XMFLOAT3(transform->GetPosition().x, 0.5f, transform->GetPosition().z));
+
 #if 0
 	Debug::Print("\n");
 	Debug::Print("Pos: " + std::to_string(transform->GetPosition().x) + ", " + std::to_string(transform->GetPosition().y) + ", " + std::to_string(transform->GetPosition().z) + "\n");
@@ -63,6 +68,11 @@ void ParticleModel::UpdateNetForce() {
 	netForce.x += forces.thrust.x;
 	netForce.y += forces.thrust.y;
 	netForce.z += forces.thrust.z;
+
+	//Add gravity
+	netForce.x += forces.gravity.x;
+	netForce.y += forces.gravity.y;
+	netForce.z += forces.gravity.z;
 
 	//Multiply by friction (1 = no friction, 0 = infinity friction)
 	netForce.x *= forces.friction.x;
