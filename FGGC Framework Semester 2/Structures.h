@@ -5,12 +5,11 @@
 using namespace DirectX;
 
 struct Mesh {
-	ID3D11Buffer* vertexBuffer;
-	ID3D11Buffer* indexBuffer;
-	int numberOfIndices;
-
-	UINT vertexBufferStride;
-	UINT vertexBufferOffset;
+	ID3D11Buffer* VertexBuffer;
+	ID3D11Buffer* IndexBuffer;
+	UINT VBStride;
+	UINT VBOffset;
+	UINT IndexCount;
 };
 
 struct Material {
@@ -22,9 +21,14 @@ struct Material {
 
 struct SimpleVertex
 {
-	XMFLOAT3 PosL;
-	XMFLOAT3 NormL;
-	XMFLOAT2 Tex;
+	XMFLOAT3 Pos;
+	XMFLOAT3 Normal;
+	XMFLOAT2 TexC;
+
+	bool operator<(const SimpleVertex other) const
+	{
+		return memcmp((void*)this, (void*)&other, sizeof(SimpleVertex)) > 0;
+	};
 };
 
 struct SurfaceInfo

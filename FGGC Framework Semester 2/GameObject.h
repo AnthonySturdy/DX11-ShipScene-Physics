@@ -10,15 +10,14 @@
 #include "ParticleModel.h"
 
 using namespace DirectX;
-using namespace std;
 
 class GameObject
 {
 public:
-	GameObject(string type, Mesh geometry, Material material);
+	GameObject(std::string modelDirectory, Material material, ID3D11Device* _pd3dDevice);
+	GameObject(Mesh mesh, Material material, ID3D11Device* _pd3dDevice);
 	~GameObject();
 
-	string GetType() const { return _type; }
 	bool GetIsActive() { return isActive; }
 	void SetIsActive(bool active) { isActive = active; }
 
@@ -26,8 +25,8 @@ public:
 	Appearance* GetAppearance() { return &_appearance; }
 	ParticleModel* GetParticleModel() { return &_particleModel; }
 
-	void SetTextureRV(ID3D11ShaderResourceView * textureRV) { _textureRV = textureRV; }
-	ID3D11ShaderResourceView * GetTextureRV() const { return _textureRV; }
+	void SetTextureRV(ID3D11ShaderResourceView* textureRV) { _textureRV = textureRV; }
+	ID3D11ShaderResourceView* GetTextureRV() const { return _textureRV; }
 	bool HasTexture() const { return _textureRV ? true : false; }
 
 	void SetParent(GameObject * parent) { _parent = parent; }
@@ -36,15 +35,16 @@ public:
 	void Draw(ID3D11DeviceContext * pImmediateContext);
 
 private:
+	ID3D11Device* pd3dDevice;
+
 	Transform _transform;
 	Appearance _appearance;
 	ParticleModel _particleModel;
 
-	string _type;
 	bool isActive = true;
 
-	ID3D11ShaderResourceView * _textureRV;
+	ID3D11ShaderResourceView* _textureRV;
 
-	GameObject * _parent;
+	GameObject* _parent;
 };
 

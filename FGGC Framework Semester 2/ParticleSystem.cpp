@@ -1,12 +1,14 @@
 #include "ParticleSystem.h"
 
-ParticleSystem::ParticleSystem(GameObject* particleObject, ParticleInfo info, int _numParticles) {
+ParticleSystem::ParticleSystem(GameObject* particleObject, ParticleInfo info, int _numParticles, ID3D11Device* _pd3dDevice) {
+	pd3dDevice = _pd3dDevice;
+
 	numParticles = _numParticles;
 
 	srand(time(NULL));
 
 	for (int i = 0; i < numParticles; i++) {
-		particles.push_back(std::make_pair(new GameObject("Particle " + std::to_string(i), *particleObject->GetAppearance()->GetMesh(), *particleObject->GetAppearance()->GetMaterial()), info));
+		particles.push_back(std::make_pair(new GameObject(*particleObject->GetAppearance()->GetMesh(), *particleObject->GetAppearance()->GetMaterial(), pd3dDevice), info));
 		particles[i].first->SetIsActive(false);
 	}
 }

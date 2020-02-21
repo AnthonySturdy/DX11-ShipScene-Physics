@@ -5,9 +5,6 @@
       <UniqueIdentifier>{8e114980-c1a3-4ada-ad7c-83caadf5daeb}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Resource Files\Textures">
-      <UniqueIdentifier>{84a4d56f-682d-4b12-a7c9-064cc08bce09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{0133b421-9835-4b8a-8a14-69ace72a7a82}</UniqueIdentifier>
     </Filter>
@@ -32,6 +29,12 @@
     <Filter Include="Source\Shaders">
       <UniqueIdentifier>{2c3d4c8c-5d1a-459a-a05a-a4e4b608a44e}</UniqueIdentifier>
       <Extensions>fx;fxh;hlsl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\Textures">
+      <UniqueIdentifier>{d4408845-4920-4dca-90b7-f740b717a3d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Models">
+      <UniqueIdentifier>{b190ab8b-534f-4b93-ba6b-cfe4d5db7ce6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +71,15 @@
     <ClInclude Include="Debug.h">
       <Filter>Source\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="OBJLoader.h">
+      <Filter>Source\File Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Source\File Loading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Appearance.cpp">
@@ -103,6 +115,9 @@
     <ClCompile Include="Debug.cpp">
       <Filter>Source\Other</Filter>
     </ClCompile>
+    <ClCompile Include="OBJLoader.cpp">
+      <Filter>Source\File Loading</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -121,10 +136,87 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\floor.dds">
-      <Filter>Resource Files\Textures</Filter>
+      <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Resources\stone.dds">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Textures\canoe.dds">
       <Filter>Resource Files\Textures</Filter>
     </Image>
+    <Image Include="Resources\Textures\canoe_normal.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\canoe_specular.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\mountain.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\mountain_normal.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\mountain_specular.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\pirateship.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\pirateship_normal.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\pirateship_specular.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\rock.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\sand.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\sand_normal.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\sand_specular.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\skybox.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\transparent.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\water.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\water_normal.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\water_specular.dds">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Models\Skybox.obj">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Resources\Models\Rock1New.obj">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Resources\Models\SandMountain.obj">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Resources\Models\SeaBed.obj">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Resources\Models\Ship2.obj">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Resources\Models\Canoe.obj">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="SCENE.json">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -24,8 +24,10 @@ private:
 	int curParticleIndex = 0;
 	std::vector<std::pair<GameObject*, ParticleInfo>> particles;
 
+	ID3D11Device* pd3dDevice;
+
 public:
-	ParticleSystem(GameObject* particleObject, ParticleInfo info, int _numParticles);
+	ParticleSystem(GameObject* particleObject, ParticleInfo info, int _numParticles, ID3D11Device* _pd3dDevice);
 	~ParticleSystem();
 
 	void Update(float t);

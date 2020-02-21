@@ -98,8 +98,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
         return E_FAIL;
     }
 
-	CreateDDSTextureFromFile(_pd3dDevice, L"Resources\\stone.dds", nullptr, &_pTextureRV);
-	CreateDDSTextureFromFile(_pd3dDevice, L"Resources\\floor.dds", nullptr, &_pGroundTextureRV);
+	CreateDDSTextureFromFile(_pd3dDevice, L"Resources/stone.dds", nullptr, &_pTextureRV);
+	CreateDDSTextureFromFile(_pd3dDevice, L"Resources/floor.dds", nullptr, &_pGroundTextureRV);
 
     // Setup Camera
 	XMFLOAT3 eye = XMFLOAT3(0.0f, 2.0f, -1.0f);
@@ -116,18 +116,18 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	basicLight.LightVecW = XMFLOAT3(0.0f, 1.0f, -1.0f);
 
 	Mesh cubeGeometry;
-	cubeGeometry.indexBuffer = _pIndexBuffer;
-	cubeGeometry.vertexBuffer = _pVertexBuffer;
-	cubeGeometry.numberOfIndices = 36;
-	cubeGeometry.vertexBufferOffset = 0;
-	cubeGeometry.vertexBufferStride = sizeof(SimpleVertex);
+	cubeGeometry.IndexBuffer = _pIndexBuffer;
+	cubeGeometry.VertexBuffer = _pVertexBuffer;
+	cubeGeometry.IndexCount = 36;
+	cubeGeometry.VBOffset = 0;
+	cubeGeometry.VBStride = sizeof(SimpleVertex);
 
 	Mesh planeGeometry;
-	planeGeometry.indexBuffer = _pPlaneIndexBuffer;
-	planeGeometry.vertexBuffer = _pPlaneVertexBuffer;
-	planeGeometry.numberOfIndices = 6;
-	planeGeometry.vertexBufferOffset = 0;
-	planeGeometry.vertexBufferStride = sizeof(SimpleVertex);
+	planeGeometry.IndexBuffer = _pPlaneIndexBuffer;
+	planeGeometry.VertexBuffer = _pPlaneVertexBuffer;
+	planeGeometry.IndexCount = 6;
+	planeGeometry.VBOffset = 0;
+	planeGeometry.VBStride = sizeof(SimpleVertex);
 
 	Material shinyMaterial;
 	shinyMaterial.ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
@@ -141,7 +141,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	noSpecMaterial.specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	noSpecMaterial.specularPower = 0.0f;
 	
-	GameObject * gameObject = new GameObject("Floor", planeGeometry, noSpecMaterial);
+	GameObject * gameObject = new GameObject(planeGeometry, noSpecMaterial, _pd3dDevice);
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 	gameObject->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
 	gameObject->GetTransform()->SetRotation(XMConvertToRadians(90.0f), 0.0f, 0.0f);
@@ -151,7 +151,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	for (auto i = 0; i < NUM_OF_CUBES; i++)
 	{
-		gameObject = new GameObject("Cube " + std::to_string(i), cubeGeometry, shinyMaterial);
+		gameObject = new GameObject(cubeGeometry, shinyMaterial, _pd3dDevice);
 		gameObject->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
 		gameObject->GetTransform()->SetPosition(-4.0f + (i * 2.0f), i+0.5f, 10.0f);
 		gameObject->SetTextureRV(_pTextureRV);
@@ -163,11 +163,11 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	info.lifeTime = 2.0f;
 	info.position = XMFLOAT3(0, 1.5f, 0);
 	info.scale = XMFLOAT3(.5f, .5f, .5f);
-	info.thrust = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	info.thrust = XMFLOAT3(0.0f, 0.0f, 0.0f); 
 	info.friction = XMFLOAT3(0.93f, 0.99f, 0.93f);
 	info.gravity = XMFLOAT3(0, -9.8f, 0);
 	info.initVelocity = XMFLOAT3(0, 25, 0);
-	particleSystem = new ParticleSystem(gameObject, info, 100);
+	particleSystem = new ParticleSystem(new GameObject("Resources/Models/Canoe.obj", shinyMaterial, _pd3dDevice), info, 100, _pd3dDevice);
 
 	return S_OK;
 }

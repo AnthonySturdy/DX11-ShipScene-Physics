@@ -377,6 +377,7 @@
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -395,8 +396,11 @@
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="Quaternion.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Structures.h" />
     <ClInclude Include="Transform.h" />
@@ -406,6 +410,45 @@
   <ItemGroup>
     <Image Include="Resources\floor.dds" />
     <Image Include="Resources\stone.dds" />
+    <Image Include="Resources\Textures\canoe.dds" />
+    <Image Include="Resources\Textures\canoe_normal.dds" />
+    <Image Include="Resources\Textures\canoe_specular.dds" />
+    <Image Include="Resources\Textures\mountain.dds" />
+    <Image Include="Resources\Textures\mountain_normal.dds" />
+    <Image Include="Resources\Textures\mountain_specular.dds" />
+    <Image Include="Resources\Textures\pirateship.dds" />
+    <Image Include="Resources\Textures\pirateship_normal.dds" />
+    <Image Include="Resources\Textures\pirateship_specular.dds" />
+    <Image Include="Resources\Textures\rock.dds" />
+    <Image Include="Resources\Textures\sand.dds" />
+    <Image Include="Resources\Textures\sand_normal.dds" />
+    <Image Include="Resources\Textures\sand_specular.dds" />
+    <Image Include="Resources\Textures\skybox.dds" />
+    <Image Include="Resources\Textures\transparent.dds" />
+    <Image Include="Resources\Textures\water.dds" />
+    <Image Include="Resources\Textures\water_normal.dds" />
+    <Image Include="Resources\Textures\water_specular.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Models\Canoe.obj">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Resources\Models\Rock1New.obj">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Resources\Models\SandMountain.obj">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Resources\Models\SeaBed.obj">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Resources\Models\Ship2.obj">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Resources\Models\Skybox.obj">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="SCENE.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
