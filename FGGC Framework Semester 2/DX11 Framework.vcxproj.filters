@@ -80,6 +80,9 @@
     <ClInclude Include="json.hpp">
       <Filter>Source\File Loading</Filter>
     </ClInclude>
+    <ClInclude Include="SceneLoader.h">
+      <Filter>Source\GameObject\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Appearance.cpp">
@@ -117,6 +120,9 @@
     </ClCompile>
     <ClCompile Include="OBJLoader.cpp">
       <Filter>Source\File Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLoader.cpp">
+      <Filter>Source\GameObject\Other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
