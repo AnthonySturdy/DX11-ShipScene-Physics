@@ -5,12 +5,12 @@
 #include <d3dcompiler.h>
 #include <directxmath.h>
 #include <directxcolors.h>
+#include <vector>
 #include "DDSTextureLoader.h"
 #include "resource.h"
 #include "Camera.h"
 #include "ParticleSystem.h"
-
-#include <vector>
+#include "SceneLoader.h"
 /*
 //#include <SpriteFont.h>
 #include "CommonStates.h"
@@ -68,7 +68,7 @@ private:
 
 	Light basicLight;
 
-	vector<GameObject *> _gameObjects;
+	std::vector<GameObject *> _gameObjects;
 
 	ParticleSystem* particleSystem;
 

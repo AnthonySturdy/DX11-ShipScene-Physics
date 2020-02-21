@@ -13,9 +13,9 @@ using json = nlohmann::json;
 
 class SceneLoader {
 public:
-	static void LoadFromFile(std::string fileDir);
-	static void CreateObjectInScene(GameObject* parent, json j, ID3D11Device* pd3dDevice);
+	static std::vector<GameObject*> LoadFromFile(std::string fileDir, ID3D11Device* pd3dDevice);
 
 private:
+	static void CreateObjectInScene(GameObject* parent, json j, std::vector<GameObject*>& goArray, ID3D11Device* pd3dDevice);
 	static std::wstring StringToWstring(std::string s);
 };

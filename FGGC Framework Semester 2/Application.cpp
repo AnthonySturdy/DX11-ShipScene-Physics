@@ -159,6 +159,11 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		_gameObjects.push_back(gameObject);
 	}
 
+	std::vector<GameObject*> sceneObjects = SceneLoader::LoadFromFile("Resources/SCENE.json", _pd3dDevice);
+	for (auto& i : sceneObjects) {
+		_gameObjects.push_back(i);
+	}
+
 	ParticleInfo info;
 	info.lifeTime = 2.0f;
 	info.position = XMFLOAT3(0, 1.5f, 0);

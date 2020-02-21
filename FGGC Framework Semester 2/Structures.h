@@ -13,6 +13,20 @@ struct Mesh {
 };
 
 struct Material {
+	Material() {
+		diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
+		specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+		specularPower = 10.0f;
+	}
+
+	Material(XMFLOAT4 d, XMFLOAT4 a, XMFLOAT4 s, float sp) {
+		diffuse = d;
+		ambient = a;
+		specular = s;
+		specularPower = sp;
+	}
+
 	XMFLOAT4 diffuse;
 	XMFLOAT4 ambient;
 	XMFLOAT4 specular;
