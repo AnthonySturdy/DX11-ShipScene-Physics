@@ -40,6 +40,8 @@ void SceneLoader::CreateObjectInScene(GameObject* parent, json j, std::vector<Ga
 		go->SetTextureRV(rv);
 
 		go->SetParent(parent);			//Set parent object
+
+		go->SetShaderType(obj["ShaderType"] == nullptr ? ShaderType::UNDEFINED : obj["ShaderType"]);	//Set shader type
 	} else if (obj["Type"] == "GameObject_Plane") {
 		return;
 	}

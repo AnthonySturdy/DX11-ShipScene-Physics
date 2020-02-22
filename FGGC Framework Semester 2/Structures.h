@@ -75,3 +75,12 @@ struct ConstantBuffer
 	XMFLOAT3 EyePosW;
 	float HasTexture;
 };
+
+enum ShaderType {
+	UNDEFINED = 0,
+	DEFAULT,
+	BOAT,
+	WATER,
+	LAND_UNDER_WATER,
+	NO_LIGHT,
+};

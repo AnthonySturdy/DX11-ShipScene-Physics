@@ -99,6 +99,14 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	CreateDDSTextureFromFile(_pd3dDevice, L"Resources/stone.dds", nullptr, &_pTextureRV);
 	CreateDDSTextureFromFile(_pd3dDevice, L"Resources/floor.dds", nullptr, &_pGroundTextureRV);
 
+	// Load shaders
+	shaders.push_back(new Shader(_pd3dDevice, _pImmediateContext, L"Resources/Shader Files/Error Shader.fx"));
+	shaders.push_back(new Shader(_pd3dDevice, _pImmediateContext, L"Resources/Shader Files/Normal Shader.fx"));
+	shaders.push_back(new Shader(_pd3dDevice, _pImmediateContext, L"Resources/Shader Files/Boat Shader.fx"));
+	shaders.push_back(new Shader(_pd3dDevice, _pImmediateContext, L"Resources/Shader Files/Water Shader.fx"));
+	shaders.push_back(new Shader(_pd3dDevice, _pImmediateContext, L"Resources/Shader Files/Land Under Water Shader.fx"));
+	shaders.push_back(new Shader(_pd3dDevice, _pImmediateContext, L"Resources/Shader Files/No Light Shader.fx"));
+
     // Setup Camera
 	XMFLOAT3 eye = XMFLOAT3(0.0f, 2.0f, -1.0f);
 	XMFLOAT3 at = XMFLOAT3(0.0f, 2.0f, 0.0f);
@@ -785,6 +793,13 @@ void Application::Draw()
 
 		// Set world matrix
 		cb.World = XMMatrixTranspose(gameObject->GetTransform()->GetWorldMatrix());
+
+		//Set shader
+		Shader* s = shaders[gameObject->GetShaderType()];
+		_pImmediateContext->VSSetShader(s->GetVertexShader(), nullptr, 0);
+		_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
+		_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
+		_pImmediateContext->PSSetShader(s->GetPixelShader(), nullptr, 0);
 
 		// Set texture
 		if (gameObject->HasTexture())

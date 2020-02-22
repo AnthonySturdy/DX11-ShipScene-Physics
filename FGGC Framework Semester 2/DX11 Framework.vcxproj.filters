@@ -36,6 +36,9 @@
     <Filter Include="Resource Files\Models">
       <UniqueIdentifier>{b190ab8b-534f-4b93-ba6b-cfe4d5db7ce6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Shaders\Shader Files">
+      <UniqueIdentifier>{7b1926b8-4d2b-4ce9-b091-07e80bb65dcf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Appearance.h">
@@ -83,6 +86,9 @@
     <ClInclude Include="SceneLoader.h">
       <Filter>Source\GameObject\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Source\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Appearance.cpp">
@@ -124,6 +130,9 @@
     <ClCompile Include="SceneLoader.cpp">
       <Filter>Source\GameObject\Other</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source\Shaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -134,11 +143,6 @@
     <ResourceCompile Include="DX11 Framework.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="DX11 Framework.fx">
-      <Filter>Source\Shaders</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\floor.dds">
@@ -221,5 +225,28 @@
     <None Include="Resources\Models\Canoe.obj">
       <Filter>Resource Files\Models</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="DX11 Framework.fx">
+      <Filter>Source\Shaders\Shader Files</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader Files\Boat Shader.fx">
+      <Filter>Source\Shaders\Shader Files</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader Files\Land Under Water Shader.fx">
+      <Filter>Source\Shaders\Shader Files</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader Files\No Light Shader.fx">
+      <Filter>Source\Shaders\Shader Files</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader Files\Normal Shader.fx">
+      <Filter>Source\Shaders\Shader Files</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader Files\Water Shader.fx">
+      <Filter>Source\Shaders\Shader Files</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader Files\Error Shader.fx">
+      <Filter>Source\Shaders\Shader Files</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

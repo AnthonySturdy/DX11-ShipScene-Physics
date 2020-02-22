@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "ParticleSystem.h"
 #include "SceneLoader.h"
+#include "Shader.h"
 /*
 //#include <SpriteFont.h>
 #include "CommonStates.h"
@@ -60,15 +61,14 @@ private:
 	ID3D11DepthStencilView* _depthStencilView = nullptr;
 	ID3D11Texture2D* _depthStencilBuffer = nullptr;
 
-	ID3D11ShaderResourceView * _pTextureRV = nullptr;
-
-	ID3D11ShaderResourceView * _pGroundTextureRV = nullptr;
-
-	ID3D11SamplerState * _pSamplerLinear = nullptr;
+	ID3D11ShaderResourceView* _pTextureRV = nullptr;
+	ID3D11ShaderResourceView* _pGroundTextureRV = nullptr;
+	ID3D11SamplerState* _pSamplerLinear = nullptr;
 
 	Light basicLight;
 
-	std::vector<GameObject *> _gameObjects;
+	std::vector<GameObject*> _gameObjects;
+	std::vector<Shader*> shaders;
 
 	ParticleSystem* particleSystem;
 

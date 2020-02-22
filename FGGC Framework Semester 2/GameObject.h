@@ -29,6 +29,9 @@ public:
 	ID3D11ShaderResourceView* GetTextureRV() const { return _textureRV; }
 	bool HasTexture() const { return _textureRV ? true : false; }
 
+	void SetShaderType(ShaderType st) { shaderType = st; }
+	ShaderType GetShaderType() { return shaderType; }
+
 	void SetParent(GameObject* parent) { _parent = parent; }
 
 	void Update(float t);
@@ -40,6 +43,7 @@ private:
 	Transform _transform;
 	Appearance _appearance;
 	ParticleModel _particleModel;
+	ShaderType shaderType;
 
 	bool isActive = true;
 
