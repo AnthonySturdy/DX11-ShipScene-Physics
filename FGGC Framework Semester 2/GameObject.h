@@ -29,10 +29,10 @@ public:
 	ID3D11ShaderResourceView* GetTextureRV() const { return _textureRV; }
 	bool HasTexture() const { return _textureRV ? true : false; }
 
-	void SetParent(GameObject * parent) { _parent = parent; }
+	void SetParent(GameObject* parent) { _parent = parent; }
 
 	void Update(float t);
-	void Draw(ID3D11DeviceContext * pImmediateContext);
+	void Draw(ID3D11DeviceContext* pImmediateContext);
 
 private:
 	ID3D11Device* pd3dDevice;

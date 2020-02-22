@@ -49,8 +49,8 @@ void ParticleModel::Update(float t) {
 	UpdateAcceleration();
 	MoveConstAcceleration(t);
 
-	if (transform->GetPosition().y <= 0.5f)
-		transform->SetPosition(XMFLOAT3(transform->GetPosition().x, 0.5f, transform->GetPosition().z));
+	//if (transform->GetPosition().y <= 0.5f)
+		//transform->SetPosition(XMFLOAT3(transform->GetPosition().x, 0.5f, transform->GetPosition().z));
 
 #if 0
 	Debug::Print("\n");

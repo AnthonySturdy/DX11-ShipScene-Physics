@@ -25,8 +25,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 bool Application::HandleKeyboard(MSG msg)
 {
-	XMFLOAT3 cameraPosition = _camera->GetPosition();
-
 	switch (msg.wParam)
 	{
 	case VK_UP:
@@ -106,7 +104,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	XMFLOAT3 at = XMFLOAT3(0.0f, 2.0f, 0.0f);
 	XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 
-	_camera = new Camera(eye, at, up, (float)_renderWidth, (float)_renderHeight, 0.01f, 200.0f);
+	_camera = new Camera(eye, at, up, (float)_renderWidth, (float)_renderHeight, 0.01f, 750.0f);
 
 	// Setup the scene's light
 	basicLight.AmbientLight = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -115,6 +113,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	basicLight.SpecularPower = 20.0f;
 	basicLight.LightVecW = XMFLOAT3(0.0f, 1.0f, -1.0f);
 
+	/* OLD CUBE AND PLANE GENERATION
 	Mesh cubeGeometry;
 	cubeGeometry.IndexBuffer = _pIndexBuffer;
 	cubeGeometry.VertexBuffer = _pVertexBuffer;
@@ -155,9 +154,10 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		gameObject->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
 		gameObject->GetTransform()->SetPosition(-4.0f + (i * 2.0f), i+0.5f, 10.0f);
 		gameObject->SetTextureRV(_pTextureRV);
+		gameObject->GetParticleModel()->SetFriction(XMFLOAT3(0.93f, 0.93f, 0.93f));
 
 		_gameObjects.push_back(gameObject);
-	}
+	}*/
 
 	std::vector<GameObject*> sceneObjects = SceneLoader::LoadFromFile("Resources/SCENE.json", _pd3dDevice);
 	for (auto& i : sceneObjects) {
@@ -167,12 +167,12 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	ParticleInfo info;
 	info.lifeTime = 2.0f;
 	info.position = XMFLOAT3(0, 1.5f, 0);
-	info.scale = XMFLOAT3(.5f, .5f, .5f);
+	info.scale = XMFLOAT3(1, 1, 1);
 	info.thrust = XMFLOAT3(0.0f, 0.0f, 0.0f); 
 	info.friction = XMFLOAT3(0.93f, 0.99f, 0.93f);
 	info.gravity = XMFLOAT3(0, -9.8f, 0);
-	info.initVelocity = XMFLOAT3(0, 25, 0);
-	particleSystem = new ParticleSystem(new GameObject("Resources/Models/Canoe.obj", shinyMaterial, _pd3dDevice), info, 100, _pd3dDevice);
+	info.initVelocity = XMFLOAT3(0, 100, 0);
+	particleSystem = new ParticleSystem(new GameObject("Resources/Models/Canoe.obj", Material(), _pd3dDevice), info, 100, _pd3dDevice);
 
 	return S_OK;
 }
@@ -720,6 +720,8 @@ void Application::Update()
 	cameraPos.z = z;
 
 	_camera->SetPosition(cameraPos);
+	//_camera->SetPosition(XMFLOAT3(60, 130, 150));
+	//_camera->SetLookAt(XMFLOAT3(0, 10, 0));
 	_camera->Update();
 
 	// Update objects

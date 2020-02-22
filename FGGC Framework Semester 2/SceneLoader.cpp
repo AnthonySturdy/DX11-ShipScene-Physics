@@ -23,21 +23,32 @@ void SceneLoader::CreateObjectInScene(GameObject* parent, json j, std::vector<Ga
 
 	if (obj["Type"] == "GameObject") {
 		go = new GameObject(obj["ModelDirectory"],
-			obj["Material"] == nullptr ? Material() : Material(XMFLOAT4(obj["Material"]["Diffuse"]["x"], obj["Material"]["Diffuse"]["y"], obj["Material"]["Diffuse"]["z"], obj["Material"]["Diffuse"]["w"]),
-																XMFLOAT4(obj["Material"]["Ambient"]["x"], obj["Material"]["Ambient"]["y"], obj["Material"]["Ambient"]["z"], obj["Material"]["Ambient"]["w"]),
-																XMFLOAT4(obj["Material"]["Specular"]["x"], obj["Material"]["Specular"]["y"], obj["Material"]["Specular"]["z"], obj["Material"]["Specular"]["w"]),
-																obj["SpecularPower"]), pd3dDevice);
+							obj["Material"] == nullptr ? Material() : Material(XMFLOAT4(obj["Material"]["Diffuse"]["x"], obj["Material"]["Diffuse"]["y"], obj["Material"]["Diffuse"]["z"], obj["Material"]["Diffuse"]["w"]),
+																				XMFLOAT4(obj["Material"]["Ambient"]["x"], obj["Material"]["Ambient"]["y"], obj["Material"]["Ambient"]["z"], obj["Material"]["Ambient"]["w"]),
+																				XMFLOAT4(obj["Material"]["Specular"]["x"], obj["Material"]["Specular"]["y"], obj["Material"]["Specular"]["z"], obj["Material"]["Specular"]["w"]),
+																				obj["Material"]["SpecularPower"]), 
+							pd3dDevice);	//GameObject constructor
 
-		go->GetTransform()->SetPosition(XMFLOAT3(obj["Position"]["x"], obj["Position"]["y"], obj["Position"]["z"]));
-		go->GetTransform()->SetRotation(XMFLOAT3(obj["Rotation"]["x"], obj["Rotation"]["y"], obj["Rotation"]["z"]));
-		go->GetTransform()->SetScale(XMFLOAT3(obj["Scale"]["x"], obj["Scale"]["y"], obj["Scale"]["z"]));
-		go->SetParent(parent);
-	} 
+		go->GetTransform()->SetPosition(obj["Position"] == nullptr ? XMFLOAT3() : XMFLOAT3(obj["Position"]["x"], obj["Position"]["y"], obj["Position"]["z"]));	//Set position from file
+		go->GetTransform()->SetRotation(obj["Rotation"] == nullptr ? XMFLOAT3() : XMFLOAT3(obj["Rotation"]["x"], obj["Rotation"]["y"], obj["Rotation"]["z"]));	//Set rotation from file
+		go->GetTransform()->SetScale(obj["Scale"] == nullptr ? XMFLOAT3(1, 1, 1) : XMFLOAT3(obj["Scale"]["x"], obj["Scale"]["y"], obj["Scale"]["z"]));			//Set scale from file
+
+		ID3D11ShaderResourceView* rv;	//Load texture from address
+		std::string texDir = obj["TextureDirectory"];
+		texDir = "Resources/" + texDir;
+		CreateDDSTextureFromFile(pd3dDevice, StringToWstring(texDir).c_str(), nullptr, &rv);
+		go->SetTextureRV(rv);
+
+		go->SetParent(parent);			//Set parent object
+	} else if (obj["Type"] == "GameObject_Plane") {
+		return;
+	}
 
 	goArray.push_back(go);
 
 	for (auto& x : j.items()) {
 		std::string key = x.key();
+		//TODO: IMPROVE THE UGLY LINE BELOW 
 		if (key != "Type" && key != "TextureDirectory" && key != "ModelDirectory" && key != "PlaneWidth" && key != "PlaneHeight" && key != "Position" && key != "Rotation" && key != "Scale" && key != "ShaderType" && key != "Material") {	//If is not GameObject property
 			CreateObjectInScene(go, j[key], goArray, pd3dDevice);
 		}

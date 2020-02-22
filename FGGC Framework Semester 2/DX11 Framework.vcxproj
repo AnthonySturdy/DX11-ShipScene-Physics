@@ -450,7 +450,6 @@
     <None Include="Resources\Models\Skybox.obj">
       <FileType>Document</FileType>
     </None>
-    <None Include="SCENE.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
