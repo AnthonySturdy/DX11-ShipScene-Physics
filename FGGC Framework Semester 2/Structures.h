@@ -73,7 +73,7 @@ struct ConstantBuffer
 	Light light;
 
 	XMFLOAT3 EyePosW;
-	float HasTexture;
+	float gTime;
 };
 
 enum ShaderType {

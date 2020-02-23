@@ -12,21 +12,34 @@ Texture2D txNormal : register(t1);
 Texture2D txSpecular : register(t2);
 SamplerState samLinear : register(s0);
 
-cbuffer ConstantBuffer : register( b0 )
+struct SurfaceInfo
+{
+	float4 AmbientMtrl;
+	float4 DiffuseMtrl;
+	float4 SpecularMtrl;
+};
+
+struct Light
+{
+	float4 AmbientLight;
+	float4 DiffuseLight;
+	float4 SpecularLight;
+
+	float SpecularPower;
+	float3 LightVecW;
+};
+
+cbuffer ConstantBuffer : register(b0)
 {
 	matrix World;
 	matrix View;
 	matrix Projection;
-	float4 DiffuseMtrl;
-	float4 DiffuseLight;
-	float3 LightVecW;
+
+	SurfaceInfo surface;
+	Light light;
+
+	float3 EyePosW;
 	float gTime;
-	float4 AmbientMtrl;
-	float4 AmbientLight;
-	float4 SpecularMtrl;
-	float4 SpecularLight;
-	float SpecularPower;
-	float3 EyePosW;	//Cam position in world space
 }
 
 struct PS_INPUT
@@ -83,18 +96,18 @@ float4 PS(PS_INPUT input) : SV_Target
 	float3 normalW = normalize(input.Norm) + texNormal;
 
 	//Compute the reflection vector
-	float3 r = reflect(-LightVecW, normalW);
+	float3 r = reflect(-light.LightVecW, normalW);
 
 	//Determine how much specular light makes it to eye
-	float specularAmount = pow(max(dot(r, input.eyePos), 0.0f), SpecularPower);
+	float specularAmount = pow(max(dot(r, input.eyePos), 0.0f), light.SpecularPower);
 	//Compute colour using diffuse lighting only
-	float diffuseAmount = max(dot(LightVecW, normalW), 0.0f);
+	float diffuseAmount = max(dot(light.LightVecW, normalW), 0.0f);
 	//Compute diffuse colour
-	float3 diffuse = diffuseAmount * (DiffuseMtrl * DiffuseLight).rgb;
+	float3 diffuse = diffuseAmount * (surface.DiffuseMtrl * light.DiffuseLight).rgb;
 	//Compute ambient colour
-	float3 ambient = AmbientMtrl * AmbientLight;
+	float3 ambient = surface.AmbientMtrl * light.AmbientLight;
 	//Compute Specular colour
-	float3 specular = specularAmount * (SpecularMtrl * SpecularLight).rbg * txSpecular.Sample(samLinear, input.Tex);
+	float3 specular = specularAmount * (surface.SpecularMtrl * light.SpecularLight).rbg * txSpecular.Sample(samLinear, input.Tex);
 
 	//Texture colour
 	float4 texCol = txDiffuse.Sample(samLinear, input.Tex);
@@ -104,7 +117,7 @@ float4 PS(PS_INPUT input) : SV_Target
 
 	float4 outCol;
 	outCol.rgb = texCol + ambient + diffuse + specular;
-	outCol.a = DiffuseMtrl.a;
+	outCol.a = surface.DiffuseMtrl.a;
 
 	outCol = lerp(fogCol, outCol, saturate(dist * 30));	//Interpolate from output colour to fog colour based on distance
 

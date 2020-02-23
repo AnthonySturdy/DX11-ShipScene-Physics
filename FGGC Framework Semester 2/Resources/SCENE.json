@@ -70,10 +70,12 @@
                 "Type":"GameObject",
                 "ModelDirectory":"Models/Skybox.obj",
                 "TextureDirectory":"Textures/transparent.dds",
+                "ShaderType":1,
                 "3.1":{
                     "Type":"GameObject",
                     "ModelDirectory":"Models/Skybox.obj",
                     "TextureDirectory":"Textures/transparent.dds",
+                    "ShaderType":1,
                     "Position":{
                         "x":0,
                         "y":10,
@@ -86,6 +88,7 @@
             "Type":"GameObject",
             "ModelDirectory":"Models/Rock1New.obj",
             "TextureDirectory":"Textures/rock.dds",
+            "ShaderType":1,
             "Position":{
                 "x":63.6,
                 "y":-7.6,
@@ -106,6 +109,7 @@
             "Type":"GameObject",
             "ModelDirectory":"Models/SandMountain.obj",
             "TextureDirectory":"Textures/mountain.dds",
+            "ShaderType":1,
             "Position":{
                 "x":19.1,
                 "y":-2.1,
@@ -126,6 +130,7 @@
             "Type":"GameObject",
             "ModelDirectory":"Models/SandMountain.obj",
             "TextureDirectory":"Textures/mountain.dds",
+            "ShaderType":1,
             "Position":{
                 "x":106.9,
                 "y":-2.7,
@@ -146,6 +151,7 @@
             "Type":"GameObject",
             "ModelDirectory":"Models/SandMountain.obj",
             "TextureDirectory":"Textures/mountain.dds",
+            "ShaderType":1,
             "Position":{
                 "x":108.6,
                 "y":-6.2,
@@ -166,6 +172,7 @@
             "Type":"GameObject",
             "ModelDirectory":"Models/SandMountain.obj",
             "TextureDirectory":"Textures/mountain.dds",
+            "ShaderType":1,
             "Position":{
                 "x":64.7,
                 "y":-12.5,
@@ -186,6 +193,7 @@
             "Type":"GameObject",
             "ModelDirectory":"Models/Rock1New.obj",
             "TextureDirectory":"Textures/rock.dds",
+            "ShaderType":1,
             "Position":{
                 "x":3.4,
                 "y":-6.4,
@@ -206,6 +214,7 @@
             "Type":"GameObject",
             "ModelDirectory":"Models/Rock1New.obj",
             "TextureDirectory":"Textures/rock.dds",
+            "ShaderType":1,
             "Position":{
                 "x":-45,
                 "y":-6,
@@ -226,6 +235,7 @@
             "Type":"GameObject",
             "ModelDirectory":"Models/SandMountain.obj",
             "TextureDirectory":"Textures/mountain.dds",
+            "ShaderType":1,
             "Position":{
                 "x":-110,
                 "y":-6.2,
@@ -246,6 +256,7 @@
             "Type":"GameObject",
             "ModelDirectory":"Models/SandMountain.obj",
             "TextureDirectory":"Textures/mountain.dds",
+            "ShaderType":1,
             "Position":{
                 "x":-115,
                 "y":-12.5,
@@ -266,6 +277,7 @@
             "Type":"GameObject",
             "ModelDirectory":"Models/Rock1New.obj",
             "TextureDirectory":"Textures/rock.dds",
+            "ShaderType":1,
             "Position":{
                 "x":-85.2,
                 "y":-5,
@@ -286,6 +298,7 @@
             "Type":"GameObject",
             "ModelDirectory":"Models/SandMountain.obj",
             "TextureDirectory":"Textures/mountain.dds",
+            "ShaderType":1,
             "Position":{
                 "x":-91.1,
                 "y":-12.5,

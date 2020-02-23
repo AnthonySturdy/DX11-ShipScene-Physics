@@ -66,6 +66,7 @@ private:
 	ID3D11SamplerState* _pSamplerLinear = nullptr;
 
 	Light basicLight;
+	float globalTime;
 
 	std::vector<GameObject*> _gameObjects;
 	std::vector<Shader*> shaders;

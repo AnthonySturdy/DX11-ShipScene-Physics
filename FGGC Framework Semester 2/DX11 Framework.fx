@@ -37,7 +37,7 @@ cbuffer ConstantBuffer : register( b0 )
 	Light light;
 
 	float3 EyePosW;
-	float HasTexture;
+	float gTime;
 }
 
 struct VS_INPUT
@@ -118,16 +118,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
 
 	// Sum all the terms together and copy over the diffuse alpha.
 	float4 finalColour;
-
-	if (HasTexture == 1.0f)
-	{
-		finalColour.rgb = (textureColour.rgb * (ambient + diffuse)) + specular;
-	}
-	else
-	{
-		finalColour.rgb = ambient + diffuse + specular;
-	}
-
+	finalColour.rgb = (textureColour.rgb * (ambient + diffuse)) + specular;
 	finalColour.a = surface.DiffuseMtrl.a;
 
 	return finalColour;

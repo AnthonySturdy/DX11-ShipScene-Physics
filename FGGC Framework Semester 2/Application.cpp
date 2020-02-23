@@ -685,6 +685,8 @@ void Application::Update()
 	if (deltaTime < FPS_60)
 		return;
 
+	globalTime += deltaTime;
+
 	// Move gameobjects 
 	if (GetAsyncKeyState('1')) {
 		_gameObjects[1]->GetParticleModel()->SetThrust(XMFLOAT3(-5.0f, 0.0f, 0.0f));
@@ -768,6 +770,8 @@ void Application::Draw()
 
     ConstantBuffer cb;
 
+	cb.gTime = globalTime;
+
 	XMFLOAT4X4 viewAsFloats = _camera->GetView();
 	XMFLOAT4X4 projectionAsFloats = _camera->GetProjection();
 
@@ -802,15 +806,14 @@ void Application::Draw()
 		_pImmediateContext->PSSetShader(s->GetPixelShader(), nullptr, 0);
 
 		// Set texture
-		if (gameObject->HasTexture())
-		{
+		if (gameObject->HasTexture()) {
 			ID3D11ShaderResourceView * textureRV = gameObject->GetTextureRV();
 			_pImmediateContext->PSSetShaderResources(0, 1, &textureRV);
-			cb.HasTexture = 1.0f;
 		}
-		else
-		{
-			cb.HasTexture = 0.0f;
+		else {
+			ID3D11ShaderResourceView* rv;	//Load texture from address
+			CreateDDSTextureFromFile(_pd3dDevice, L"Resources/Textures/error.dds", nullptr, &rv);
+			_pImmediateContext->PSSetShaderResources(0, 1, &rv);
 		}
 
 		// Update constant buffer

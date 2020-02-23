@@ -12,21 +12,34 @@ Texture2D txNormal : register(t1);
 Texture2D txSpecular : register(t2);
 SamplerState samLinear : register(s0);
 
-cbuffer ConstantBuffer : register( b0 )
+struct SurfaceInfo
+{
+	float4 AmbientMtrl;
+	float4 DiffuseMtrl;
+	float4 SpecularMtrl;
+};
+
+struct Light
+{
+	float4 AmbientLight;
+	float4 DiffuseLight;
+	float4 SpecularLight;
+
+	float SpecularPower;
+	float3 LightVecW;
+};
+
+cbuffer ConstantBuffer : register(b0)
 {
 	matrix World;
 	matrix View;
 	matrix Projection;
-	float4 DiffuseMtrl;
-	float4 DiffuseLight;
-	float3 LightVecW;
+
+	SurfaceInfo surface;
+	Light light;
+
+	float3 EyePosW;
 	float gTime;
-	float4 AmbientMtrl;
-	float4 AmbientLight;
-	float4 SpecularMtrl;
-	float4 SpecularLight;
-	float SpecularPower;
-	float3 EyePosW;	//Cam position in world space
 }
 
 struct PS_INPUT
