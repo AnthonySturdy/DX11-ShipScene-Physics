@@ -91,43 +91,55 @@ PS_INPUT VS( float4 Pos : POSITION, float3 NormalL : NORMAL, float2 Tex : TEXCOO
 //--------------------------------------------------------------------------------------
 float4 PS(PS_INPUT input) : SV_Target
 {
-	float3 texNormal = txNormal.Sample(samLinear, input.Tex).rgb;	//Get normal map values
-	//txtNormal = normalize(texNormal * 2.0 - 1.0);	//Convert to -1
-	float3 normalW = normalize(input.Norm) + texNormal;
+	float3 normalW = normalize(input.Norm);
 
-	//Compute the reflection vector
-	float3 r = reflect(-light.LightVecW, normalW);
+	float3 toEye = normalize(EyePosW - input.eyePos);
 
-	//Determine how much specular light makes it to eye
-	float specularAmount = pow(max(dot(r, input.eyePos), 0.0f), light.SpecularPower);
-	//Compute colour using diffuse lighting only
-	float diffuseAmount = max(dot(light.LightVecW, normalW), 0.0f);
-	//Compute diffuse colour
-	float3 diffuse = diffuseAmount * (surface.DiffuseMtrl * light.DiffuseLight).rgb;
-	//Compute ambient colour
-	float3 ambient = surface.AmbientMtrl * light.AmbientLight;
-	//Compute Specular colour
-	float3 specular = specularAmount * (surface.SpecularMtrl * light.SpecularLight).rbg * txSpecular.Sample(samLinear, input.Tex);
+	// Get texture data from file
+	float4 textureColour = txDiffuse.Sample(samLinear, input.Tex);
 
-	//Texture colour
-	float4 texCol = txDiffuse.Sample(samLinear, input.Tex);
+	//Discard pixel if alpha is low
+	clip(textureColour.a - 0.15f);
 
-	float dist = input.Pos.z / input.Pos.w;		//Distance to pixel being rendered
-	float4 fogCol = float4(0.48f, 0.7f, 0.94f, 1.0f);		//Colour of fog
+	float3 ambient = float3(0.0f, 0.0f, 0.0f);
+	float3 diffuse = float3(0.0f, 0.0f, 0.0f);
+	float3 specular = float3(0.0f, 0.0f, 0.0f);
 
-	float4 outCol;
-	outCol.rgb = texCol + ambient + diffuse + specular;
-	outCol.a = surface.DiffuseMtrl.a;
+	float3 lightLecNorm = normalize(light.LightVecW);
+	// Compute Colour
 
-	outCol = lerp(fogCol, outCol, saturate(dist * 30));	//Interpolate from output colour to fog colour based on distance
+	// Compute the reflection vector.
+	float3 r = reflect(-lightLecNorm, normalW);
+
+	// Determine how much specular light makes it into the eye.
+	float specularAmount = pow(max(dot(r, toEye), 0.0f), light.SpecularPower);
+
+	// Determine the diffuse light intensity that strikes the vertex.
+	float diffuseAmount = max(dot(lightLecNorm, normalW), 0.0f);
+
+	// Only display specular when there is diffuse
+	if (diffuseAmount <= 0.0f)
+	{
+		specularAmount = 0.0f;
+	}
+
+	// Compute the ambient, diffuse, and specular terms separately.
+	specular += specularAmount * (surface.SpecularMtrl * light.SpecularLight).rgb;
+	diffuse += diffuseAmount * (surface.DiffuseMtrl * light.DiffuseLight).rgb;
+	ambient += (surface.AmbientMtrl * light.AmbientLight).rgb;
+
+	// Sum all the terms together and copy over the diffuse alpha.
+	float4 finalColour;
+	finalColour.rgb = (textureColour.rgb * (ambient + diffuse)) + specular;
+	finalColour.a = surface.DiffuseMtrl.a;
 
 	//If below sea level, turning colour more blue
 	float4 waterCol = float4(0.0f, 0.031f, 0.201f, 1.0f);
 	float4 waterDeepCol = float4(0.0f, 0.0f, 0.05f, 1.0f);
 	if (input.vPos.y < 0) {
-		outCol = lerp(outCol, waterCol, saturate(abs(input.vPos.y / 9.0f)));
-		outCol = lerp(outCol, waterDeepCol, saturate(abs(input.vPos.y / 20.0f)));
+		finalColour = lerp(finalColour, waterCol, saturate(abs(input.vPos.y / 9.0f)));
+		finalColour = lerp(finalColour, waterDeepCol, saturate(abs(input.vPos.y / 20.0f)));
 	} 
 
-	return saturate(outCol);
+	return finalColour;
 }
