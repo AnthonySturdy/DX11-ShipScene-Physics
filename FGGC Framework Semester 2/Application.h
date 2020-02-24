@@ -46,27 +46,21 @@ private:
 	ID3D11DeviceContext*    _pImmediateContext;
 	IDXGISwapChain*         _pSwapChain;
 	ID3D11RenderTargetView* _pRenderTargetView;
+	ID3D11BlendState*		_transparency;
 	ID3D11VertexShader*     _pVertexShader;
 	ID3D11PixelShader*      _pPixelShader;
 	ID3D11InputLayout*      _pVertexLayout;
-
-	ID3D11Buffer*           _pVertexBuffer;
-	ID3D11Buffer*           _pIndexBuffer;
-
-	ID3D11Buffer*           _pPlaneVertexBuffer;
-	ID3D11Buffer*           _pPlaneIndexBuffer;
 
 	ID3D11Buffer*           _pConstantBuffer;
 
 	ID3D11DepthStencilView* _depthStencilView = nullptr;
 	ID3D11Texture2D* _depthStencilBuffer = nullptr;
 
-	ID3D11ShaderResourceView* _pTextureRV = nullptr;
-	ID3D11ShaderResourceView* _pGroundTextureRV = nullptr;
+	ID3D11ShaderResourceView* _errorTextureRV = nullptr;
 	ID3D11SamplerState* _pSamplerLinear = nullptr;
 
 	Light basicLight;
-	float globalTime;
+	float globalTime = 0;
 
 	std::vector<GameObject*> _gameObjects;
 	std::vector<Shader*> shaders;
@@ -102,8 +96,6 @@ private:
 	void Cleanup();
 	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
 	HRESULT InitShadersAndInputLayout();
-	HRESULT InitVertexBuffer();
-	HRESULT InitIndexBuffer();
 
 public:
 	Application();

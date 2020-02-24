@@ -49,8 +49,8 @@ void ParticleSystem::Emit() {
 void ParticleSystem::Emit(ParticleInfo info) {
 	//Set to active and set lifetime
 	particles[curParticleIndex].second.lifeTimeRemaining = particles[curParticleIndex].second.lifeTime;
-	int random1 = (rand() % 21) - 10;
-	int random2 = (rand() % 21) - 10;
+	int random1 = (rand() % 51) - 25;
+	int random2 = (rand() % 51) - 25;
 
 	particles[curParticleIndex].second.initVelocity.x += random1;
 	particles[curParticleIndex].second.initVelocity.z += random2;

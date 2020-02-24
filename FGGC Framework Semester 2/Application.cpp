@@ -64,8 +64,6 @@ Application::Application()
 	_pVertexShader = nullptr;
 	_pPixelShader = nullptr;
 	_pVertexLayout = nullptr;
-	_pVertexBuffer = nullptr;
-	_pIndexBuffer = nullptr;
 	_pConstantBuffer = nullptr;
 
 	DSLessEqual = nullptr;
@@ -96,8 +94,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
         return E_FAIL;
     }
 
-	CreateDDSTextureFromFile(_pd3dDevice, L"Resources/stone.dds", nullptr, &_pTextureRV);
-	CreateDDSTextureFromFile(_pd3dDevice, L"Resources/floor.dds", nullptr, &_pGroundTextureRV);
+	CreateDDSTextureFromFile(_pd3dDevice, L"Resources/Textures/error.dds", nullptr, &_errorTextureRV);
 
 	// Load shaders
 	shaders.push_back(new Shader(_pd3dDevice, _pImmediateContext, L"Resources/Shader Files/Error Shader.fx"));
@@ -119,53 +116,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	basicLight.DiffuseLight = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	basicLight.SpecularLight = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 	basicLight.SpecularPower = 20.0f;
-	basicLight.LightVecW = XMFLOAT3(0.0f, 1.0f, -1.0f);
-
-	/* OLD CUBE AND PLANE GENERATION
-	Mesh cubeGeometry;
-	cubeGeometry.IndexBuffer = _pIndexBuffer;
-	cubeGeometry.VertexBuffer = _pVertexBuffer;
-	cubeGeometry.IndexCount = 36;
-	cubeGeometry.VBOffset = 0;
-	cubeGeometry.VBStride = sizeof(SimpleVertex);
-
-	Mesh planeGeometry;
-	planeGeometry.IndexBuffer = _pPlaneIndexBuffer;
-	planeGeometry.VertexBuffer = _pPlaneVertexBuffer;
-	planeGeometry.IndexCount = 6;
-	planeGeometry.VBOffset = 0;
-	planeGeometry.VBStride = sizeof(SimpleVertex);
-
-	Material shinyMaterial;
-	shinyMaterial.ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	shinyMaterial.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	shinyMaterial.specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	shinyMaterial.specularPower = 10.0f;
-
-	Material noSpecMaterial;
-	noSpecMaterial.ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
-	noSpecMaterial.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	noSpecMaterial.specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
-	noSpecMaterial.specularPower = 0.0f;
-	
-	GameObject * gameObject = new GameObject(planeGeometry, noSpecMaterial, _pd3dDevice);
-	gameObject->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-	gameObject->GetTransform()->SetScale(15.0f, 15.0f, 15.0f);
-	gameObject->GetTransform()->SetRotation(XMConvertToRadians(90.0f), 0.0f, 0.0f);
-	gameObject->SetTextureRV(_pGroundTextureRV);
-
-	_gameObjects.push_back(gameObject);
-
-	for (auto i = 0; i < NUM_OF_CUBES; i++)
-	{
-		gameObject = new GameObject(cubeGeometry, shinyMaterial, _pd3dDevice);
-		gameObject->GetTransform()->SetScale(0.5f, 0.5f, 0.5f);
-		gameObject->GetTransform()->SetPosition(-4.0f + (i * 2.0f), i+0.5f, 10.0f);
-		gameObject->SetTextureRV(_pTextureRV);
-		gameObject->GetParticleModel()->SetFriction(XMFLOAT3(0.93f, 0.93f, 0.93f));
-
-		_gameObjects.push_back(gameObject);
-	}*/
+	basicLight.LightVecW = XMFLOAT3(0.25f, 0.5f, -1.0f);
 
 	std::vector<GameObject*> sceneObjects = SceneLoader::LoadFromFile("Resources/SCENE.json", _pd3dDevice);
 	for (auto& i : sceneObjects) {
@@ -173,14 +124,14 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	}
 
 	ParticleInfo info;
-	info.lifeTime = 2.0f;
-	info.position = XMFLOAT3(0, 1.5f, 0);
+	info.lifeTime = 1.0f;
+	info.position = XMFLOAT3(0, 10.0f, 0);
 	info.scale = XMFLOAT3(1, 1, 1);
 	info.thrust = XMFLOAT3(0.0f, 0.0f, 0.0f); 
 	info.friction = XMFLOAT3(0.93f, 0.99f, 0.93f);
 	info.gravity = XMFLOAT3(0, -9.8f, 0);
-	info.initVelocity = XMFLOAT3(0, 100, 0);
-	particleSystem = new ParticleSystem(new GameObject("Resources/Models/Canoe.obj", Material(), _pd3dDevice), info, 100, _pd3dDevice);
+	info.initVelocity = XMFLOAT3(0, 20, 0);
+	particleSystem = new ParticleSystem(new GameObject("Models/Skybox.obj", Material(), _pd3dDevice), info, 100, _pd3dDevice);
 
 	return S_OK;
 }
@@ -262,151 +213,6 @@ HRESULT Application::InitShadersAndInputLayout()
 	return hr;
 }
 
-HRESULT Application::InitVertexBuffer()
-{
-	HRESULT hr;
-
-    // Create vertex buffer
-    SimpleVertex vertices[] =
-    {
-		{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-
-		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-
-		{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 0.0f) },
-
-		{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 0.0f) },
-
-		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-
-		{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 0.0f) },
-    };
-
-    D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-    bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(SimpleVertex) * 24;
-    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-    D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-    InitData.pSysMem = vertices;
-
-    hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pVertexBuffer);
-
-    if (FAILED(hr))
-        return hr;
-
-	// Create vertex buffer
-	SimpleVertex planeVertices[] =
-	{
-		{ XMFLOAT3(-1.0f, -1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 5.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(5.0f, 5.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(5.0f, 0.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-	};
-
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(SimpleVertex) * 4;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = planeVertices;
-
-	hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pPlaneVertexBuffer);
-
-	if (FAILED(hr))
-		return hr;
-
-	return S_OK;
-}
-
-HRESULT Application::InitIndexBuffer()
-{
-	HRESULT hr;
-
-    // Create index buffer
-    WORD indices[] =
-    {
-		3, 1, 0,
-		2, 1, 3,
-
-		6, 4, 5,
-		7, 4, 6,
-
-		11, 9, 8,
-		10, 9, 11,
-
-		14, 12, 13,
-		15, 12, 14,
-
-		19, 17, 16,
-		18, 17, 19,
-
-		22, 20, 21,
-		23, 20, 22
-    };
-
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-
-    bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(WORD) * 36;     
-    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-	D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-    InitData.pSysMem = indices;
-    hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pIndexBuffer);
-
-    if (FAILED(hr))
-        return hr;
-
-	// Create plane index buffer
-	WORD planeIndices[] =
-	{
-		0, 3, 1,
-		3, 2, 1,
-	};
-
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(WORD) * 6;
-	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = planeIndices;
-	hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pPlaneIndexBuffer);
-
-	if (FAILED(hr))
-		return hr;
-
-	return S_OK;
-}
-
 HRESULT Application::InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
     // Register class
@@ -430,7 +236,7 @@ HRESULT Application::InitWindow(HINSTANCE hInstance, int nCmdShow)
     _hInst = hInstance;
     RECT rc = {0, 0, 960, 540};
     AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
-    _hWnd = CreateWindow(L"TutorialWindowClass", L"FGGC Semester 2 Framework", WS_OVERLAPPEDWINDOW,
+    _hWnd = CreateWindow(L"TutorialWindowClass", L"Anthony Sturdy // FGGC Semester 2", WS_OVERLAPPEDWINDOW,
                          CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
                          nullptr);
     if (!_hWnd)
@@ -554,9 +360,6 @@ HRESULT Application::InitDevice()
 
 	InitShadersAndInputLayout();
 
-	InitVertexBuffer();
-	InitIndexBuffer();
-
     // Set primitive topology
     _pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -618,6 +421,27 @@ HRESULT Application::InitDevice()
 	cmdesc.FrontCounterClockwise = false;
 	hr = _pd3dDevice->CreateRasterizerState(&cmdesc, &CWcullMode);
 
+	//Blend state
+	D3D11_RENDER_TARGET_BLEND_DESC rtbd;
+	ZeroMemory(&rtbd, sizeof(rtbd));
+
+	D3D11_BLEND_DESC blendDesc;
+	ZeroMemory(&blendDesc, sizeof(blendDesc));
+
+	rtbd.BlendEnable = true;
+	rtbd.SrcBlend = D3D11_BLEND_SRC_COLOR;
+	rtbd.DestBlend = D3D11_BLEND_BLEND_FACTOR;
+	rtbd.BlendOp = D3D11_BLEND_OP_ADD;
+	rtbd.SrcBlendAlpha = D3D11_BLEND_ONE;
+	rtbd.DestBlendAlpha = D3D11_BLEND_ZERO;
+	rtbd.BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	rtbd.RenderTargetWriteMask = D3D10_COLOR_WRITE_ENABLE_ALL;
+
+	blendDesc.AlphaToCoverageEnable = false;
+	blendDesc.RenderTarget[0] = rtbd;
+
+	_pd3dDevice->CreateBlendState(&blendDesc, &_transparency);
+
     return S_OK;
 }
 
@@ -626,21 +450,15 @@ void Application::Cleanup()
     if (_pImmediateContext) _pImmediateContext->ClearState();
 	if (_pSamplerLinear) _pSamplerLinear->Release();
 
-	if (_pTextureRV) _pTextureRV->Release();
-
-	if (_pGroundTextureRV) _pGroundTextureRV->Release();
+	if (_errorTextureRV) _errorTextureRV->Release();
 
     if (_pConstantBuffer) _pConstantBuffer->Release();
-
-    if (_pVertexBuffer) _pVertexBuffer->Release();
-    if (_pIndexBuffer) _pIndexBuffer->Release();
-	if (_pPlaneVertexBuffer) _pPlaneVertexBuffer->Release();
-	if (_pPlaneIndexBuffer) _pPlaneIndexBuffer->Release();
 
     if (_pVertexLayout) _pVertexLayout->Release();
     if (_pVertexShader) _pVertexShader->Release();
     if (_pPixelShader) _pPixelShader->Release();
     if (_pRenderTargetView) _pRenderTargetView->Release();
+	if (_transparency) _transparency->Release();
     if (_pSwapChain) _pSwapChain->Release();
     if (_pImmediateContext) _pImmediateContext->Release();
     if (_pd3dDevice) _pd3dDevice->Release();
@@ -700,24 +518,6 @@ void Application::Update()
 	if (GetAsyncKeyState('9')) {
 		particleSystem->Emit();
 	}
-	/*
-	if (GetAsyncKeyState('1')) {
-		GameObject* go = _gameObjects[1];
-		go->GetParticleModel()->MoveForward(go->GetTransform());
-	} else if (GetAsyncKeyState('2')) {
-		GameObject* go = _gameObjects[2];
-		go->GetParticleModel()->MoveBackward(go->GetTransform());
-	} else if (GetAsyncKeyState('3')) {
-		GameObject* go = _gameObjects[3];
-		go->GetParticleModel()->MoveLeft(go->GetTransform());
-	} else if (GetAsyncKeyState('4')) {
-		GameObject* go = _gameObjects[4];
-		go->GetParticleModel()->MoveRight(go->GetTransform());
-	} else if (GetAsyncKeyState('5')) {
-		GameObject* go = _gameObjects[5];
-		go->GetParticleModel()->MoveUp(go->GetTransform());
-	}
-	*/
 
 	// Update camera
 	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
@@ -747,18 +547,12 @@ void Application::Update()
 
 void Application::Draw()
 {
-    //
     // Clear buffers
-    //
-
 	float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; // red,green,blue,alpha
     _pImmediateContext->ClearRenderTargetView(_pRenderTargetView, ClearColor);
 	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-    //
     // Setup buffers and render scene
-    //
-
 	_pImmediateContext->IASetInputLayout(_pVertexLayout);
 
 	_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
@@ -809,24 +603,25 @@ void Application::Draw()
 		if (gameObject->HasTexture()) {
 			ID3D11ShaderResourceView * textureRV = gameObject->GetTextureRV();
 			_pImmediateContext->PSSetShaderResources(0, 1, &textureRV);
+		} else {
+			_pImmediateContext->PSSetShaderResources(0, 1, &_errorTextureRV);
 		}
-		else {
-			ID3D11ShaderResourceView* rv;	//Load texture from address
-			CreateDDSTextureFromFile(_pd3dDevice, L"Resources/Textures/error.dds", nullptr, &rv);
-			_pImmediateContext->PSSetShaderResources(0, 1, &rv);
-		}
+
+		//Set blend state
+		float blendFactor[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+		if (gameObject->GetShaderType() == ShaderType::WATER)
+			_pImmediateContext->OMSetBlendState(_transparency, blendFactor, 0xffffffff);
+		else
+			_pImmediateContext->OMSetBlendState(0, 0, 0xffffffff);
 
 		// Update constant buffer
 		_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
-
 		// Draw object
 		gameObject->Draw(_pImmediateContext);
 	}
 
 	particleSystem->Draw(_pImmediateContext, _pConstantBuffer, cb);
 
-    //
     // Present our back buffer to our front buffer
-    //
     _pSwapChain->Present(0, 0);
 }

@@ -5,9 +5,9 @@ GameObject::GameObject(std::string modelDirectory, Material material, ID3D11Devi
 	_textureRV = nullptr;
 	pd3dDevice = _pd3dDevice;
 
-	_appearance.LoadMesh("Resources/" + modelDirectory, pd3dDevice);
+	if(modelDirectory != "")	//Plane child class passes "" as model directory, so the plane isn't overridden.
+		_appearance.LoadMesh("Resources/" + modelDirectory, pd3dDevice);
 	_appearance.SetMaterial(material);
-
 	_particleModel.SetTransform(&_transform);
 }
 

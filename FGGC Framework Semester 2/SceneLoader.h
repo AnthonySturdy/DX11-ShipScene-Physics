@@ -5,7 +5,7 @@
 #include <fstream>
 #include "Structures.h"
 #include "GameObject.h"
-//#include "GameObject_Plane.h"
+#include "GameObject_Plane.h"
 #include "vector3.h"
 #include "json.hpp"	//https://github.com/nlohmann/json
 #include "DDSTextureLoader.h"

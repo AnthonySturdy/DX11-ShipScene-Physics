@@ -89,6 +89,9 @@
     <ClInclude Include="Shader.h">
       <Filter>Source\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject_Plane.h">
+      <Filter>Source\GameObject\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Appearance.cpp">
@@ -132,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Source\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject_Plane.cpp">
+      <Filter>Source\GameObject\Other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
