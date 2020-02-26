@@ -123,6 +123,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		_gameObjects.push_back(i);
 	}
 
+
 	ParticleInfo info;
 	info.lifeTime = 1.0f;
 	info.position = XMFLOAT3(0, 10.0f, 0);
@@ -507,13 +508,13 @@ void Application::Update()
 
 	// Move gameobjects 
 	if (GetAsyncKeyState('1')) {
-		_gameObjects[1]->GetParticleModel()->SetThrust(XMFLOAT3(-5.0f, 0.0f, 0.0f));
+		_gameObjects[2]->GetParticleModel()->SetThrust(XMFLOAT3(-5.0f, 0.0f, 0.0f));
 	} 
 	if (GetAsyncKeyState('3')) {
-		_gameObjects[1]->GetParticleModel()->SetThrust(XMFLOAT3(5.0f, 0.0f, 0.0f));
+		_gameObjects[2]->GetParticleModel()->SetThrust(XMFLOAT3(5.0f, 0.0f, 0.0f));
 	}
 	if (GetAsyncKeyState('2')) {
-		_gameObjects[1]->GetParticleModel()->SetThrust(XMFLOAT3(0.0f, 0.0f, 0.0f));
+		_gameObjects[2]->GetParticleModel()->SetThrust(XMFLOAT3(0.0f, 0.0f, 0.0f));
 	}
 	if (GetAsyncKeyState('9')) {
 		particleSystem->Emit();
