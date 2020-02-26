@@ -47,6 +47,10 @@ void ParticleSystem::Emit() {
 }
 
 void ParticleSystem::Emit(ParticleInfo info) {
+	particles[curParticleIndex].first->GetParticleModel()->SetVelocity(XMFLOAT3());
+	particles[curParticleIndex].first->GetParticleModel()->SetAcceleration(XMFLOAT3());
+	particles[curParticleIndex].first->GetParticleModel()->SetNetforce(XMFLOAT3());
+
 	//Set to active and set lifetime
 	particles[curParticleIndex].second.lifeTimeRemaining = particles[curParticleIndex].second.lifeTime;
 	int random1 = (rand() % 51) - 25;
@@ -60,8 +64,6 @@ void ParticleSystem::Emit(ParticleInfo info) {
 	particles[curParticleIndex].first->GetParticleModel()->SetFriction(particles[curParticleIndex].second.friction);
 	particles[curParticleIndex].first->GetParticleModel()->SetGravity(particles[curParticleIndex].second.gravity);
 	particles[curParticleIndex].first->GetParticleModel()->SetVelocity(particles[curParticleIndex].second.initVelocity);
-	particles[curParticleIndex].first->GetParticleModel()->SetAcceleration(XMFLOAT3());
-	particles[curParticleIndex].first->GetParticleModel()->SetNetforce(XMFLOAT3());
 
 	particles[curParticleIndex].first->GetTransform()->SetPosition(info.position);
 	particles[curParticleIndex].first->GetTransform()->SetScale(info.scale);
