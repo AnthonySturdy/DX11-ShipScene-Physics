@@ -34,7 +34,7 @@ public:
 	void Draw(ID3D11DeviceContext* pImmediateContext, ID3D11Buffer* constantBuffer, ConstantBuffer cb);
 
 	void Emit();
-	void Emit(ParticleInfo info);
+	void Emit(ParticleInfo& info);
 
 	void SetParticleInfo(ParticleInfo info);
 };

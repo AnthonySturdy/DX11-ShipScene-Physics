@@ -10,6 +10,7 @@ ParticleSystem::ParticleSystem(GameObject* particleObject, ParticleInfo info, in
 	for (int i = 0; i < numParticles; i++) {
 		particles.push_back(std::make_pair(new GameObject(*particleObject->GetAppearance()->GetMesh(), *particleObject->GetAppearance()->GetMaterial(), pd3dDevice), info));
 		particles[i].first->SetIsActive(false);
+		particles[i].first->SetIsStatic(false);
 	}
 }
 
@@ -46,27 +47,25 @@ void ParticleSystem::Emit() {
 	Emit(particles[curParticleIndex].second);
 }
 
-void ParticleSystem::Emit(ParticleInfo info) {
-	particles[curParticleIndex].first->GetParticleModel()->SetVelocity(XMFLOAT3());
-	particles[curParticleIndex].first->GetParticleModel()->SetAcceleration(XMFLOAT3());
-	particles[curParticleIndex].first->GetParticleModel()->SetNetforce(XMFLOAT3());
+void ParticleSystem::Emit(ParticleInfo& info) {
+	particles[curParticleIndex].first->GetTransform()->SetPosition(info.position);
+	particles[curParticleIndex].first->GetTransform()->SetScale(info.scale);
 
 	//Set to active and set lifetime
-	particles[curParticleIndex].second.lifeTimeRemaining = particles[curParticleIndex].second.lifeTime;
+	info.lifeTimeRemaining = info.lifeTime;
 	int random1 = (rand() % 51) - 25;
 	int random2 = (rand() % 51) - 25;
 
-	particles[curParticleIndex].second.initVelocity.x += random1;
-	particles[curParticleIndex].second.initVelocity.z += random2;
+	//Create copy of init velocity
+	XMFLOAT3 newInitVel = info.initVelocity;
+	newInitVel.x += random1;
+	newInitVel.z += random2;
 
 	//Set object physics properties
-	particles[curParticleIndex].first->GetParticleModel()->SetThrust(particles[curParticleIndex].second.thrust);
-	particles[curParticleIndex].first->GetParticleModel()->SetFriction(particles[curParticleIndex].second.friction);
-	particles[curParticleIndex].first->GetParticleModel()->SetGravity(particles[curParticleIndex].second.gravity);
-	particles[curParticleIndex].first->GetParticleModel()->SetVelocity(particles[curParticleIndex].second.initVelocity);
-
-	particles[curParticleIndex].first->GetTransform()->SetPosition(info.position);
-	particles[curParticleIndex].first->GetTransform()->SetScale(info.scale);
+	particles[curParticleIndex].first->GetParticleModel()->SetThrust(info.thrust);
+	particles[curParticleIndex].first->GetParticleModel()->SetFriction(info.friction);
+	particles[curParticleIndex].first->GetParticleModel()->SetGravity(info.gravity);
+	particles[curParticleIndex].first->GetParticleModel()->SetVelocity(newInitVel);
 
 	particles[curParticleIndex].first->SetIsActive(true);
 

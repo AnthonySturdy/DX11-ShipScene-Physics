@@ -30,7 +30,8 @@ void GameObject::Update(float t) {
 		return;
 
 	_transform.Update(t);
-	_particleModel.Update(t);
+	if(!isStatic)
+		_particleModel.Update(t);
 
 	if (_parent != nullptr){	//Update World Matrix based on parent's World Matrix
 		XMStoreFloat4x4(_transform.GetWorldFloat4X4(), this->_transform.GetWorldMatrix() * _parent->_transform.GetWorldMatrix());

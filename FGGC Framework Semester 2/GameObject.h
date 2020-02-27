@@ -20,6 +20,8 @@ public:
 
 	bool GetIsActive() { return isActive; }
 	void SetIsActive(bool active) { isActive = active; }
+	bool GetIsStatic() { return isStatic; }
+	void SetIsStatic(bool isstatic) { isStatic = isstatic; }
 
 	Transform* GetTransform() { return &_transform; }
 	Appearance* GetAppearance() { return &_appearance; }
@@ -46,6 +48,7 @@ private:
 	ShaderType shaderType;
 
 	bool isActive = true;
+	bool isStatic = true;
 
 	ID3D11ShaderResourceView* _textureRV;
 
