@@ -125,8 +125,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 
 	ParticleInfo info;
-	info.lifeTime = 1.0f;
-	info.position = XMFLOAT3(0, 10.0f, 0);
+	info.lifeTime = 300.0f;
+	info.position = XMFLOAT3(0, 10.0f, 20);
 	info.scale = XMFLOAT3(1, 1, 1);
 	info.thrust = XMFLOAT3(0.0f, 0.0f, 0.0f); 
 	info.friction = XMFLOAT3(0.93f, 0.99f, 0.93f);
@@ -579,6 +579,8 @@ void Application::Draw()
 	cb.light = basicLight;
 	cb.EyePosW = _camera->GetPosition();
 
+	particleSystem->Draw(_pImmediateContext, _pConstantBuffer, cb);
+
 	// Render all scene objects
 	for (auto gameObject : _gameObjects)
 	{
@@ -620,8 +622,6 @@ void Application::Draw()
 		// Draw object
 		gameObject->Draw(_pImmediateContext);
 	}
-
-	particleSystem->Draw(_pImmediateContext, _pConstantBuffer, cb);
 
     // Present our back buffer to our front buffer
     _pSwapChain->Present(0, 0);

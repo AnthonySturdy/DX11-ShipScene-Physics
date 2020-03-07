@@ -57,11 +57,12 @@ void ParticleSystem::Emit(ParticleInfo& info) {
 	int random2 = (rand() % 51) - 25;
 
 	//Create copy of init velocity
-	XMFLOAT3 newInitVel = info.initVelocity;
+	XMFLOAT3 newInitVel = info.initVelocity;	//Create new local variable so not modifying the original info
 	newInitVel.x += random1;
 	newInitVel.z += random2;
 
 	//Set object physics properties
+	particles[curParticleIndex].first->GetParticleModel()->SetNetforce(XMFLOAT3());
 	particles[curParticleIndex].first->GetParticleModel()->SetThrust(info.thrust);
 	particles[curParticleIndex].first->GetParticleModel()->SetFriction(info.friction);
 	particles[curParticleIndex].first->GetParticleModel()->SetGravity(info.gravity);
