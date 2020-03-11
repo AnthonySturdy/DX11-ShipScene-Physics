@@ -519,11 +519,13 @@ void Application::Update()
 		_gameObjects[2]->GetParticleModel()->SetThrust(XMFLOAT3(0.0f, 0.0f, 0.0f));
 	}
 	if (GetAsyncKeyState('8')) {
-		_gameObjects[2]->GetRigidBody()->ApplyForce(XMFLOAT3(0, 0, 500), XMFLOAT3(0, 1, 0));
+		rotationAmount += deltaTime * 1000;
 	}
 	if (GetAsyncKeyState('9')) {
 		particleSystem->Emit();
 	}
+	_gameObjects[2]->GetRigidBody()->ApplyForce(XMFLOAT3(0, 0, rotationAmount), XMFLOAT3(0, 1, 0));
+
 
 	// Update camera
 	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
