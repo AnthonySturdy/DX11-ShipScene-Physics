@@ -92,6 +92,9 @@
     <ClInclude Include="GameObject_Plane.h">
       <Filter>Source\GameObject\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>Source\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Appearance.cpp">
@@ -138,6 +141,9 @@
     </ClCompile>
     <ClCompile Include="GameObject_Plane.cpp">
       <Filter>Source\GameObject\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>Source\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

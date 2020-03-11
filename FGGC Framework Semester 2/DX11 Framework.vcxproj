@@ -381,6 +381,7 @@
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -424,6 +425,7 @@
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Quaternion.h" />
     <CLInclude Include="resource.h" />
+    <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SceneLoader.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Structures.h" />

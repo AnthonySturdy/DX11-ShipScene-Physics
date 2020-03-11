@@ -8,6 +8,7 @@
 #include "Transform.h"
 #include "Appearance.h"
 #include "ParticleModel.h"
+#include "Rigidbody.h"
 
 using namespace DirectX;
 
@@ -26,6 +27,7 @@ public:
 	Transform* GetTransform() { return &_transform; }
 	Appearance* GetAppearance() { return &_appearance; }
 	ParticleModel* GetParticleModel() { return &_particleModel; }
+	Rigidbody* GetRigidBody() { return &_rigidbody; }
 
 	void SetTextureRV(ID3D11ShaderResourceView* textureRV) { _textureRV = textureRV; }
 	ID3D11ShaderResourceView* GetTextureRV() const { return _textureRV; }
@@ -45,6 +47,7 @@ private:
 	Transform _transform;
 	Appearance _appearance;
 	ParticleModel _particleModel;
+	Rigidbody _rigidbody;
 	ShaderType shaderType;
 
 	bool isActive = true;

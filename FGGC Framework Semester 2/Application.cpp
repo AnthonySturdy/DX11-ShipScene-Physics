@@ -123,16 +123,18 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 		_gameObjects.push_back(i);
 	}
 
+	_gameObjects[2]->SetIsStatic(false);
+	_gameObjects[2]->GetParticleModel()->SetFriction(XMFLOAT3(0.85f, 0.85f, 0.85f));
 
 	ParticleInfo info;
-	info.lifeTime = 300.0f;
+	info.lifeTime = 3.0f;
 	info.position = XMFLOAT3(0, 10.0f, 20);
 	info.scale = XMFLOAT3(1, 1, 1);
 	info.thrust = XMFLOAT3(0.0f, 0.0f, 0.0f); 
 	info.friction = XMFLOAT3(0.93f, 0.99f, 0.93f);
 	info.gravity = XMFLOAT3(0, -9.8f, 0);
 	info.initVelocity = XMFLOAT3(0, 20, 0);
-	particleSystem = new ParticleSystem(new GameObject("Models/Skybox.obj", Material(), _pd3dDevice), info, 100, _pd3dDevice);
+	particleSystem = new ParticleSystem(new GameObject("Models/Skybox.obj", Material(), _pd3dDevice), info, 30, _pd3dDevice);
 
 	return S_OK;
 }
@@ -515,6 +517,9 @@ void Application::Update()
 	}
 	if (GetAsyncKeyState('2')) {
 		_gameObjects[2]->GetParticleModel()->SetThrust(XMFLOAT3(0.0f, 0.0f, 0.0f));
+	}
+	if (GetAsyncKeyState('8')) {
+		_gameObjects[2]->GetRigidBody()->ApplyForce(XMFLOAT3(0, 0, 500), XMFLOAT3(0, 1, 0));
 	}
 	if (GetAsyncKeyState('9')) {
 		particleSystem->Emit();

@@ -5,6 +5,8 @@ GameObject::GameObject(std::string modelDirectory, Material material, ID3D11Devi
 	_textureRV = nullptr;
 	pd3dDevice = _pd3dDevice;
 
+	_rigidbody = Rigidbody(1, 1, 1, &_particleModel);
+
 	if(modelDirectory != "")	//Plane child class passes "" as model directory, so the plane isn't overridden.
 		_appearance.LoadMesh("Resources/" + modelDirectory, pd3dDevice);
 	_appearance.SetMaterial(material);
@@ -29,9 +31,10 @@ void GameObject::Update(float t) {
 	if (!isActive)
 		return;
 
-	_transform.Update(t);
-	if(!isStatic)
+	if (!isStatic)
 		_particleModel.Update(t);
+	_rigidbody.Update(t);
+	_transform.Update(t);
 
 	if (_parent != nullptr){	//Update World Matrix based on parent's World Matrix
 		XMStoreFloat4x4(_transform.GetWorldFloat4X4(), this->_transform.GetWorldMatrix() * _parent->_transform.GetWorldMatrix());
