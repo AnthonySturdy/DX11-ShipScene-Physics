@@ -60,15 +60,13 @@ XMVECTOR Rigidbody::ApplyDamping(float deltaTime) {
 }
 
 XMMATRIX Rigidbody::CalculateAngularOrientation(XMFLOAT3 position, float deltaTime) {
-	Quaternion q;
-
 	XMFLOAT3 av; XMStoreFloat3(&av, angularVelocity);
-	q.addScaledVector(vector3(av.x, av.y, av.z), deltaTime);
+	quaternion.addScaledVector(vector3(av.x, av.y, av.z), deltaTime);
 
-	q.normalise();
+	quaternion.normalise();
 
 	XMMATRIX resultMatrix = XMMATRIX();
-	CalculateTransformMatrixColumnMajor(resultMatrix, vector3(position.x, position.y, position.z), q);
+	CalculateTransformMatrixColumnMajor(resultMatrix, vector3(position.x, position.y, position.z), quaternion);
 
 	return resultMatrix;
 }

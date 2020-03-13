@@ -11,6 +11,7 @@ using namespace DirectX;
 class Rigidbody {
 private:
 	ParticleModel* particleModel;
+	Quaternion quaternion;
 
 	XMMATRIX inertiaTensor;
 	XMFLOAT3 curForceDir = XMFLOAT3(), curPointForceApplied = XMFLOAT3();
