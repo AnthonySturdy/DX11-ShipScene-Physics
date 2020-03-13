@@ -518,8 +518,11 @@ void Application::Update()
 	if (GetAsyncKeyState('2')) {
 		_gameObjects[2]->GetParticleModel()->SetThrust(XMFLOAT3(0.0f, 0.0f, 0.0f));
 	}
-	if (GetAsyncKeyState('8')) {
+	if (GetAsyncKeyState('7')) {
 		_gameObjects[2]->GetRigidBody()->ApplyForce(XMFLOAT3(0, 0, 500), XMFLOAT3(0, 1, 0));
+	}
+	if (GetAsyncKeyState('8')) {
+		_gameObjects[2]->GetRigidBody()->ApplyForce(XMFLOAT3(0, 0, 500), XMFLOAT3(1, 1, 0));
 	}
 	if (GetAsyncKeyState('9')) {
 		particleSystem->Emit();

@@ -24,8 +24,10 @@ void Rigidbody::Update(float deltaTime) {
 		Debug::Print("point: " + std::to_string(curPointForceApplied.x) + ", " + std::to_string(curPointForceApplied.y) + ", " + std::to_string(curPointForceApplied.z) + "\n");
 	}
 
-	curForceDir = XMFLOAT3();
-	curPointForceApplied = XMFLOAT3();
+	curForceDir.x *= angularDamping;
+	curForceDir.y *= angularDamping;
+	curForceDir.z *= angularDamping;
+	//curPointForceApplied = XMFLOAT3();
 }
 
 XMMATRIX* Rigidbody::GetAngularOrientation() {
