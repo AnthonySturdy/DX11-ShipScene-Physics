@@ -17,15 +17,12 @@ void Rigidbody::Update(float deltaTime) {
 	angularVelocity = ApplyDamping(deltaTime);
 	angularOrientation = CalculateAngularOrientation(particleModel->GetTransform()->GetPosition(), deltaTime);
 
-	particleModel->GetTransform()->SetRotation(angularOrientation);
+	particleModel->GetTransform()->SetRotation(particleModel->GetTransform()->GetRotation() + angularOrientation);
 
 	if (curForceDir.z != 0) {
 		Debug::Print("force: " + std::to_string(curForceDir.x) + ", " + std::to_string(curForceDir.y) + ", " + std::to_string(curForceDir.z) + "\n");
 		Debug::Print("point: " + std::to_string(curPointForceApplied.x) + ", " + std::to_string(curPointForceApplied.y) + ", " + std::to_string(curPointForceApplied.z) + "\n");
 	}
-
-	curForceDir = XMFLOAT3();
-	curPointForceApplied = XMFLOAT3();
 }
 
 XMMATRIX* Rigidbody::GetAngularOrientation() {

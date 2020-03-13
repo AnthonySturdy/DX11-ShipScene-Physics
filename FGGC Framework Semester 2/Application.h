@@ -87,8 +87,7 @@ private:
 	ID3D11RasterizerState* CCWcullMode;
 	ID3D11RasterizerState* CWcullMode;
 
-
-	bool KeyOneIsPressed = false;
+	float rotationAmount = 0;
 
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
