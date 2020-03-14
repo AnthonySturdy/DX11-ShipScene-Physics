@@ -19,7 +19,7 @@ private:
 	XMVECTOR torque = XMVECTOR();
 	XMVECTOR angularAcceleration = XMVECTOR();
 	XMVECTOR angularVelocity = XMVECTOR();
-	float angularDamping = 0.9f;
+	float angularDamping = 0.93f;
 	XMMATRIX angularOrientation = XMMATRIX();
 
 	XMVECTOR CalculateTorque(XMFLOAT3 forceDirection, XMFLOAT3 pointForceApplied);	//A direction of the force, and a point relative to the centre of mass which it's applied

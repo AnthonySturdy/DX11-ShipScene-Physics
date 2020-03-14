@@ -18,6 +18,8 @@ GameObject::GameObject(Mesh mesh, Material material, ID3D11Device* _pd3dDevice) 
 	_textureRV = nullptr;
 	pd3dDevice = _pd3dDevice;
 
+	_rigidbody = Rigidbody(1, 1, 1, &_particleModel);
+
 	_appearance.SetMesh(mesh);
 	_appearance.SetMaterial(material);
 

@@ -38,7 +38,7 @@ void SceneLoader::CreateObjectInScene(GameObject* parent, json j, std::vector<Ga
 								obj["PlaneHeight"]);
 	}
 
-	go->GetTransform()->SetPosition(obj["Position"] == nullptr ? XMFLOAT3() : XMFLOAT3(obj["Position"]["x"], obj["Position"]["y"], obj["Position"]["z"]));	//Set position from file
+	go->GetTransform()->SetPosition(obj["Position"] == nullptr ? XMFLOAT3() : XMFLOAT3(obj["Position"]["x"]/2, obj["Position"]["y"]/2, obj["Position"]["z"]/2));	//Set position from file
 	go->GetTransform()->SetRotation(obj["Rotation"] == nullptr ? XMFLOAT3() : XMFLOAT3(obj["Rotation"]["x"], obj["Rotation"]["y"], obj["Rotation"]["z"]));	//Set rotation from file
 	go->GetTransform()->SetScale(obj["Scale"] == nullptr ? XMFLOAT3(1, 1, 1) : XMFLOAT3(obj["Scale"]["x"], obj["Scale"]["y"], obj["Scale"]["z"]));			//Set scale from file
 

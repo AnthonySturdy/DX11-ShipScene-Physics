@@ -128,8 +128,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 
 	ParticleInfo info;
 	info.lifeTime = 3.0f;
-	info.position = XMFLOAT3(0, 10.0f, 20);
-	info.scale = XMFLOAT3(1, 1, 1);
+	info.position = XMFLOAT3(0, 2.0f, 20);
+	info.scale = XMFLOAT3(1.3f, 1.3f, 1.3f);
 	info.thrust = XMFLOAT3(0.0f, 0.0f, 0.0f); 
 	info.friction = XMFLOAT3(0.93f, 0.99f, 0.93f);
 	info.gravity = XMFLOAT3(0, -9.8f, 0);
@@ -587,6 +587,7 @@ void Application::Draw()
 	cb.light = basicLight;
 	cb.EyePosW = _camera->GetPosition();
 
+	//Draw particle system
 	particleSystem->Draw(_pImmediateContext, _pConstantBuffer, cb);
 
 	// Render all scene objects
