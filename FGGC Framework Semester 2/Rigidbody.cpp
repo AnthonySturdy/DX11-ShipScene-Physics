@@ -19,12 +19,6 @@ void Rigidbody::Update(float deltaTime) {
 
 	particleModel->GetTransform()->SetRotation(angularOrientation);
 
-	if (curForceDir.z != 0) {
-		XMFLOAT3 av; XMStoreFloat3(&av, angularVelocity);
-		Debug::Print("force: " + std::to_string(curForceDir.x) + ", " + std::to_string(curForceDir.y) + ", " + std::to_string(curForceDir.z) + "\n");
-		Debug::Print("veloc: " + std::to_string(av.x) + ", " + std::to_string(av.y) + ", " + std::to_string(av.z) + "\n");
-	}
-
 	curForceDir.x *= angularDamping;
 	curForceDir.y *= angularDamping;
 	curForceDir.z *= angularDamping;

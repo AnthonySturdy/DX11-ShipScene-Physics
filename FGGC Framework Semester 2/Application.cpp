@@ -124,7 +124,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	}
 
 	_gameObjects[2]->SetIsStatic(false);
-	_gameObjects[2]->GetParticleModel()->SetFriction(XMFLOAT3(0.85f, 0.85f, 0.85f));
+	_gameObjects[2]->GetParticleModel()->SetFriction(XMFLOAT3(0.93f, 0.93f, 0.93f));
 
 	ParticleInfo info;
 	info.lifeTime = 3.0f;
