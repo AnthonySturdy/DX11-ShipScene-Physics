@@ -29,6 +29,7 @@ public:
 	Appearance* GetAppearance() { return &_appearance; }
 	ParticleModel* GetParticleModel() { return &_particleModel; }
 	Rigidbody* GetRigidBody() { return &_rigidbody; }
+	Collider* GetCollider() { return &_collider; }
 
 	void SetTextureRV(ID3D11ShaderResourceView* textureRV) { _textureRV = textureRV; }
 	ID3D11ShaderResourceView* GetTextureRV() const { return _textureRV; }

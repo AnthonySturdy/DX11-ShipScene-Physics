@@ -530,10 +530,8 @@ void Application::Update()
 
 	// Update camera
 	float angleAroundZ = XMConvertToRadians(_cameraOrbitAngleXZ);
-
 	float x = _cameraOrbitRadius * cos(angleAroundZ);
 	float z = _cameraOrbitRadius * sin(angleAroundZ);
-
 	XMFLOAT3 cameraPos = _camera->GetPosition();
 	cameraPos.x = x;
 	cameraPos.z = z;
@@ -548,8 +546,27 @@ void Application::Update()
 	{
 		gameObject->Update(deltaTime);
 	}
-
 	particleSystem->Update(deltaTime);
+
+	//Collision Checks
+	for (auto obj1 : _gameObjects) {
+		if (!obj1->GetIsActive())		//Don't collision check inactive objects
+			continue;
+
+		for (auto obj2 : _gameObjects) {
+			if (!obj2->GetIsActive())	//Don't collision check inactive objects
+				continue;
+			if (obj1 == obj2)			//Don't collision check itself
+				continue;
+			if (obj1->GetIsStatic() && obj2->GetIsStatic())	//Don't collision check static on static objects
+				continue;
+
+			if (Collider::CheckCollision(obj1->GetTransform()->GetPosition(), obj1->GetCollider(),
+										obj2->GetTransform()->GetPosition(), obj2->GetCollider())) {
+				Debug::Print("COLLISION");
+			}
+		}
+	}
 
 	dwTimeStart = dwTimeCur;
 }

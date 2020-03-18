@@ -69,6 +69,8 @@ void ParticleSystem::Emit(ParticleInfo& info) {
 	particles[curParticleIndex].first->GetParticleModel()->SetVelocity(newInitVel);
 	particles[curParticleIndex].first->GetRigidBody()->ApplyForce(XMFLOAT3(newInitVel.x * 100, newInitVel.y * 100, newInitVel.z * 100), XMFLOAT3(random1 / 25, -1, random2 / 25));
 
+	particles[curParticleIndex].first->GetCollider()->SetRadius(info.scale.x);
+
 	particles[curParticleIndex].first->SetIsActive(true);
 
 	//Increase particle index, if more than max particles, reset to 0
