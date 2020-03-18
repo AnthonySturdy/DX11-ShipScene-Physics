@@ -9,6 +9,7 @@
 #include "Appearance.h"
 #include "ParticleModel.h"
 #include "Rigidbody.h"
+#include "Collider.h"
 
 using namespace DirectX;
 
@@ -48,6 +49,7 @@ private:
 	Appearance _appearance;
 	ParticleModel _particleModel;
 	Rigidbody _rigidbody;
+	Collider _collider;
 	ShaderType shaderType;
 
 	bool isActive = true;

@@ -134,7 +134,7 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	info.friction = XMFLOAT3(0.93f, 0.99f, 0.93f);
 	info.gravity = XMFLOAT3(0, -9.8f, 0);
 	info.initVelocity = XMFLOAT3(0, 20, 0);
-	particleSystem = new ParticleSystem(new GameObject("Models/Skybox.obj", Material(), _pd3dDevice), info, 30, _pd3dDevice);
+	particleSystem = new ParticleSystem(new GameObject("Models/Sphere.obj", Material(), _pd3dDevice), info, 30, _pd3dDevice);
 
 	return S_OK;
 }

@@ -95,6 +95,9 @@
     <ClInclude Include="Rigidbody.h">
       <Filter>Source\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Source\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Appearance.cpp">
@@ -143,6 +146,9 @@
       <Filter>Source\GameObject\Other</Filter>
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
+      <Filter>Source\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
       <Filter>Source\GameObject</Filter>
     </ClCompile>
   </ItemGroup>

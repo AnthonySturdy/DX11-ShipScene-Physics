@@ -76,6 +76,20 @@ struct ConstantBuffer
 	float gTime;
 };
 
+struct Box3D {
+	float w, h, d;
+
+	Box3D() {
+		w = h = d = 0.0f;
+	}
+
+	Box3D(float width, float height, float depth) {
+		w = width;
+		h = height;
+		d = depth;
+	}
+};
+
 enum ShaderType {
 	UNDEFINED = 0,
 	DEFAULT,

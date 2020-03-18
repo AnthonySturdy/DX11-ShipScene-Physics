@@ -373,6 +373,7 @@
     <ClCompile Include="Appearance.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="GameObject_Plane.cpp" />
@@ -415,6 +416,7 @@
     <ClInclude Include="Appearance.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="GameObject.h" />
