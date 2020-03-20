@@ -582,8 +582,12 @@ void Application::Update()
 
 			if (Collider::CheckCollision(obj1->GetTransform()->GetPosition(), obj1->GetCollider(),
 										p.first->GetTransform()->GetPosition(), p.first->GetCollider())) {
+				p.first->GetParticleModel()->SetIsColliding(true);
+				XMFLOAT3 vel = p.first->GetParticleModel()->GetVelocity();
 				p.first->GetParticleModel()->ResetPhysics();
-				p.first->GetParticleModel()->ResetForces();
+				p.first->GetParticleModel()->SetVelocity(XMFLOAT3(vel.x, 0, vel.z));
+			} else {
+				p.first->GetParticleModel()->SetIsColliding(false);
 			}
 		}
 	}

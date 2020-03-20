@@ -13,7 +13,7 @@ private:
 	static bool CheckCollision(XMFLOAT3 pos1, float r, XMFLOAT3 pos2, Box3D b);	//Sphere vs Box 
 	static bool CheckCollision(XMFLOAT3 pos1, Box3D b, XMFLOAT3 pos2, float r) { return CheckCollision(pos2, r, pos1, b); }	//Calls above function
 	static bool CheckCollision(XMFLOAT3 pos1, Box3D b1, XMFLOAT3 pos2, Box3D b2); //Box vs Box 
-
+	
 public:
 	Collider();
 

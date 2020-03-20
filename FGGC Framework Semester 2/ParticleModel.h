@@ -19,6 +19,7 @@ private:
 	XMFLOAT3 netForce;		//Net force is all forces being applied to object
 
 	Transform* transform;
+	int isColliding = 0;
 
 	float mass;
 	Forces forces;
@@ -44,6 +45,7 @@ public:
 
 	Transform* GetTransform() { return transform; }
 	void SetTransform(Transform* t) { transform = t; }
+	void SetIsColliding(bool c) { isColliding += c; }	//Function looks weird: The bool was being reset by other objects it isn't colliding with so using this integer method which gets reset after it's used. Still using a bool for input because I think it looks neat when using.
 
 	int GetMass() { return mass; }
 	void SetMass(int m) { mass = m; }
