@@ -5,6 +5,7 @@
 #include <d3d11_1.h>
 #include "GameObject.h"
 #include "Debug.h"
+#include "Collider.h"
 
 struct ParticleInfo {
 	XMFLOAT3 position;
@@ -13,6 +14,8 @@ struct ParticleInfo {
 	XMFLOAT3 friction;
 	XMFLOAT3 gravity;
 	XMFLOAT3 initVelocity;
+	
+	ID3D11ShaderResourceView* texture;
 
 	float lifeTime = 10.0f;
 	float lifeTimeRemaining = 0.0f;
@@ -37,4 +40,6 @@ public:
 	void Emit(ParticleInfo& info);
 
 	void SetParticleInfo(ParticleInfo info);
+
+	std::vector<std::pair<GameObject*, ParticleInfo>>* GetParticles() { return &particles; }
 };

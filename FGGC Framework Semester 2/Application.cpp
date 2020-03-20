@@ -105,8 +105,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	shaders.push_back(new Shader(_pd3dDevice, _pImmediateContext, L"Resources/Shader Files/No Light Shader.fx"));
 
     // Setup Camera
-	XMFLOAT3 eye = XMFLOAT3(0.0f, 2.0f, -1.0f);
-	XMFLOAT3 at = XMFLOAT3(0.0f, 2.0f, 0.0f);
+	XMFLOAT3 eye = XMFLOAT3(0.0f, 6.0f, -1.0f);
+	XMFLOAT3 at = XMFLOAT3(0.0f, 6.0f, 0.0f);
 	XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 
 	_camera = new Camera(eye, at, up, (float)_renderWidth, (float)_renderHeight, 0.01f, 750.0f);
@@ -126,15 +126,21 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	_gameObjects[2]->SetIsStatic(false);
 	_gameObjects[2]->GetParticleModel()->SetFriction(XMFLOAT3(0.93f, 0.93f, 0.93f));
 
+
+	ID3D11ShaderResourceView* particleRV;
+	std::wstring texDir = L"Resources/Textures/prototype.dds";
+	CreateDDSTextureFromFile(_pd3dDevice, texDir.c_str(), nullptr, &particleRV);
+
 	ParticleInfo info;
-	info.lifeTime = 3.0f;
-	info.position = XMFLOAT3(0, 2.0f, 20);
-	info.scale = XMFLOAT3(1.3f, 1.3f, 1.3f);
+	info.lifeTime = 8.0f;
+	info.position = XMFLOAT3(0, 3.0f, 20);
+	info.scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	info.thrust = XMFLOAT3(0.0f, 0.0f, 0.0f); 
 	info.friction = XMFLOAT3(0.93f, 0.99f, 0.93f);
 	info.gravity = XMFLOAT3(0, -9.8f, 0);
 	info.initVelocity = XMFLOAT3(0, 20, 0);
-	particleSystem = new ParticleSystem(new GameObject("Models/Sphere.obj", Material(), _pd3dDevice), info, 30, _pd3dDevice);
+	info.texture = particleRV;
+	particleSystem = new ParticleSystem(new GameObject("Models/Sphere.obj", Material(), _pd3dDevice), info, 150, _pd3dDevice);
 
 	return S_OK;
 }
@@ -535,6 +541,7 @@ void Application::Update()
 	XMFLOAT3 cameraPos = _camera->GetPosition();
 	cameraPos.x = x;
 	cameraPos.z = z;
+	
 
 	_camera->SetPosition(cameraPos);
 	//_camera->SetPosition(XMFLOAT3(60, 130, 150));
@@ -549,11 +556,12 @@ void Application::Update()
 	particleSystem->Update(deltaTime);
 
 	//Collision Checks
-	for (auto obj1 : _gameObjects) {
+	for (auto& obj1 : _gameObjects) {
 		if (!obj1->GetIsActive())		//Don't collision check inactive objects
 			continue;
 
-		for (auto obj2 : _gameObjects) {
+		//Scene Object vs Scene Object
+		for (auto& obj2 : _gameObjects) {
 			if (!obj2->GetIsActive())	//Don't collision check inactive objects
 				continue;
 			if (obj1 == obj2)			//Don't collision check itself
@@ -563,7 +571,19 @@ void Application::Update()
 
 			if (Collider::CheckCollision(obj1->GetTransform()->GetPosition(), obj1->GetCollider(),
 										obj2->GetTransform()->GetPosition(), obj2->GetCollider())) {
-				Debug::Print("COLLISION");
+				obj2->GetParticleModel()->ResetPhysics();
+			}
+		}
+
+		//Scene Object vs Particle
+		for (auto& p : *particleSystem->GetParticles()) {
+			if (!p.first->GetIsActive())	//Don't collision check inactive objects
+				continue;
+
+			if (Collider::CheckCollision(obj1->GetTransform()->GetPosition(), obj1->GetCollider(),
+										p.first->GetTransform()->GetPosition(), p.first->GetCollider())) {
+				p.first->GetParticleModel()->ResetPhysics();
+				p.first->GetParticleModel()->ResetForces();
 			}
 		}
 	}
@@ -605,6 +625,17 @@ void Application::Draw()
 	cb.EyePosW = _camera->GetPosition();
 
 	//Draw particle system
+	Material m = Material();
+	cb.surface.AmbientMtrl = m.ambient;
+	cb.surface.DiffuseMtrl = m.diffuse;
+	cb.surface.SpecularMtrl = m.specular;
+
+	Shader* s = shaders[ShaderType::DEFAULT];
+	_pImmediateContext->VSSetShader(s->GetVertexShader(), nullptr, 0);
+	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
+	_pImmediateContext->PSSetConstantBuffers(0, 1, &_pConstantBuffer);
+	_pImmediateContext->PSSetShader(s->GetPixelShader(), nullptr, 0);
+
 	particleSystem->Draw(_pImmediateContext, _pConstantBuffer, cb);
 
 	// Render all scene objects

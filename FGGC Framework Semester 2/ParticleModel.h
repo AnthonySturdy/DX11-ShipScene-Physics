@@ -27,6 +27,9 @@ public:
 	ParticleModel();
 	ParticleModel(XMFLOAT3 initVelocity, XMFLOAT3 initAcceleration);
 
+	void ResetPhysics();
+	void ResetForces();
+
 	XMFLOAT3 GetVelocity() { return velocity; }
 	void SetVelocity(XMFLOAT3 newVelocity) { velocity = newVelocity; }
 	void SetVelocity(float x, float y, float z) { velocity.x = x; velocity.y = y; velocity.z = z; }

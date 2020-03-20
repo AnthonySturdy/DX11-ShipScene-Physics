@@ -26,6 +26,16 @@ ParticleModel::ParticleModel(XMFLOAT3 initVelocity, XMFLOAT3 initAcceleration) {
 	forces.gravity = XMFLOAT3();
 }
 
+void ParticleModel::ResetPhysics() {
+	velocity = XMFLOAT3();
+	acceleration = XMFLOAT3();
+	netForce = XMFLOAT3();
+}
+
+void ParticleModel::ResetForces() {
+	forces = Forces();
+}
+
 void ParticleModel::MoveConstVelocity(const float deltaTime) {
 	transform->SetPosition(XMFLOAT3(transform->GetPosition().x + (velocity.x * deltaTime), transform->GetPosition().y + (velocity.y * deltaTime), transform->GetPosition().z + (velocity.z * deltaTime)));
 }

@@ -39,8 +39,8 @@ void SceneLoader::CreateObjectInScene(GameObject* parent, json j, std::vector<Ga
 	}
 
 	go->GetTransform()->SetPosition(obj["Position"] == nullptr ? XMFLOAT3() : XMFLOAT3(obj["Position"]["x"]/2, obj["Position"]["y"]/2, obj["Position"]["z"]/2));	//Set position from file
-	go->GetTransform()->SetRotation(obj["Rotation"] == nullptr ? XMFLOAT3() : XMFLOAT3(obj["Rotation"]["x"], obj["Rotation"]["y"], obj["Rotation"]["z"]));	//Set rotation from file
-	go->GetTransform()->SetScale(obj["Scale"] == nullptr ? XMFLOAT3(1, 1, 1) : XMFLOAT3(obj["Scale"]["x"], obj["Scale"]["y"], obj["Scale"]["z"]));			//Set scale from file
+	go->GetTransform()->SetRotation(obj["Rotation"] == nullptr ? XMFLOAT3() : XMFLOAT3(obj["Rotation"]["x"], obj["Rotation"]["y"], obj["Rotation"]["z"]));			//Set rotation from file
+	go->GetTransform()->SetScale(obj["Scale"] == nullptr ? XMFLOAT3(1, 1, 1) : XMFLOAT3(obj["Scale"]["x"], obj["Scale"]["y"], obj["Scale"]["z"]));					//Set scale from file
 
 	//Load texture from address
 	ID3D11ShaderResourceView* rv;	
@@ -55,12 +55,16 @@ void SceneLoader::CreateObjectInScene(GameObject* parent, json j, std::vector<Ga
 	//Set parent object
 	go->SetParent(parent);			
 
-	goArray.push_back(go);
+	//Set collision
+	go->GetCollider()->SetRadius(obj["Radius"] == nullptr ? 0 : obj["Radius"]/2);
+	go->GetCollider()->SetBoundingBox(obj["Box3D"] == nullptr ? Box3D() : Box3D(obj["Box3D"]["w"]/2, obj["Box3D"]["h"]/2, obj["Box3D"]["d"]/2));
 
+	//Add to array and move onto next object
+	goArray.push_back(go);
 	for (auto& x : j.items()) {
 		std::string key = x.key();
 		//TODO: IMPROVE THE UGLY LINE BELOW 
-		if (key != "Type" && key != "TextureDirectory" && key != "ModelDirectory" && key != "PlaneWidth" && key != "PlaneHeight" && key != "Position" && key != "Rotation" && key != "Scale" && key != "ShaderType" && key != "Material") {	//If is not GameObject property
+		if (key != "Type" && key != "TextureDirectory" && key != "ModelDirectory" && key != "PlaneWidth" && key != "PlaneHeight" && key != "Position" && key != "Rotation" && key != "Scale" && key != "ShaderType" && key != "Material" && key != "Box3D" && key != "Radius") {	//If is not GameObject property
 			CreateObjectInScene(go, j[key], goArray, pd3dDevice);
 		}
 	}

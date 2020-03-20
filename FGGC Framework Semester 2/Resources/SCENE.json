@@ -84,6 +84,32 @@
                 }
             }
         },
+        "1.15":{
+        	"Type":"GameObject",
+            "ModelDirectory":"Models/Cube.obj",
+            "TextureDirectory":"Textures/prototype.dds",
+            "ShaderType":1,
+            "Position":{
+                "x":0.0,
+                "y":2.0,
+                "z":40.0
+            },
+            "Rotation":{
+                "x":0.0,
+                "y":0.0,
+                "z":0.0
+            },
+            "Scale":{
+                "x":20.0,
+                "y":2.0,
+                "z":40.0
+            },
+            "Box3D":{
+                "w":20.0,
+                "h":2.0,
+                "d":40.0
+            }
+        },
         "1.2":{
             "Type":"GameObject",
             "ModelDirectory":"Models/Rock1New.obj",

@@ -31,12 +31,15 @@ void ParticleSystem::Update(float t) {
 		if (p.second.lifeTimeRemaining <= 0.0f) {
 			p.first->SetIsActive(false);
 		}
+
 	}
 }
 
 void ParticleSystem::Draw(ID3D11DeviceContext* pImmediateContext, ID3D11Buffer* constantBuffer, ConstantBuffer cb) {
 	for (auto& p : particles) {
 		cb.World = XMMatrixTranspose(p.first->GetTransform()->GetWorldMatrix());
+		pImmediateContext->PSSetShaderResources(0, 1, &p.second.texture);
+
 		pImmediateContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb, 0, 0);
 
 		p.first->Draw(pImmediateContext);
@@ -48,6 +51,8 @@ void ParticleSystem::Emit() {
 }
 
 void ParticleSystem::Emit(ParticleInfo& info) {
+	particles[curParticleIndex].first->GetParticleModel()->ResetPhysics();
+
 	particles[curParticleIndex].first->GetTransform()->SetPosition(info.position);
 	particles[curParticleIndex].first->GetTransform()->SetScale(info.scale);
 
@@ -62,14 +67,13 @@ void ParticleSystem::Emit(ParticleInfo& info) {
 	newInitVel.z += random2;
 
 	//Set object physics properties
-	particles[curParticleIndex].first->GetParticleModel()->SetNetforce(XMFLOAT3());
 	particles[curParticleIndex].first->GetParticleModel()->SetThrust(info.thrust);
 	particles[curParticleIndex].first->GetParticleModel()->SetFriction(info.friction);
 	particles[curParticleIndex].first->GetParticleModel()->SetGravity(info.gravity);
 	particles[curParticleIndex].first->GetParticleModel()->SetVelocity(newInitVel);
 	particles[curParticleIndex].first->GetRigidBody()->ApplyForce(XMFLOAT3(newInitVel.x * 100, newInitVel.y * 100, newInitVel.z * 100), XMFLOAT3(random1 / 25, -1, random2 / 25));
 
-	particles[curParticleIndex].first->GetCollider()->SetRadius(info.scale.x);
+	particles[curParticleIndex].first->GetCollider()->SetRadius((info.scale.x + info.scale.y + info.scale.z) / 3);
 
 	particles[curParticleIndex].first->SetIsActive(true);
 
