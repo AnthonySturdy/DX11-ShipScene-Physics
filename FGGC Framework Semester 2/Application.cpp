@@ -585,7 +585,7 @@ void Application::Update()
 				p.first->GetParticleModel()->SetIsColliding(true);
 				XMFLOAT3 vel = p.first->GetParticleModel()->GetVelocity();
 				p.first->GetParticleModel()->ResetPhysics();
-				p.first->GetParticleModel()->SetVelocity(XMFLOAT3(vel.x, 0, vel.z));
+				p.first->GetParticleModel()->SetVelocity(XMFLOAT3(vel.x, -(vel.y * 0.4f), vel.z));
 			} else {
 				p.first->GetParticleModel()->SetIsColliding(false);
 			}

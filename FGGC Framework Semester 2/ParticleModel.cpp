@@ -50,7 +50,9 @@ void ParticleModel::MoveConstAcceleration(const float deltaTime) {
 	isColliding = 0;
 
 	//Apply acceleration to velocity
-	velocity = XMFLOAT3(velocity.x + (acceleration.x * deltaTime), velocity.y + (acceleration.y * deltaTime), velocity.z + (acceleration.z * deltaTime));
+	velocity = XMFLOAT3(velocity.x + (acceleration.x * deltaTime), 
+						velocity.y + (acceleration.y * deltaTime), 
+						velocity.z + (acceleration.z * deltaTime));
 
 	velocity.x *= forces.friction.x;
 	velocity.y *= forces.friction.y;
@@ -61,9 +63,6 @@ void ParticleModel::Update(float t) {
 	UpdateNetForce();
 	UpdateAcceleration();
 	MoveConstAcceleration(t);
-
-	//if (transform->GetPosition().y <= 0.5f)
-		//transform->SetPosition(XMFLOAT3(transform->GetPosition().x, 0.5f, transform->GetPosition().z));
 
 #if 0
 	Debug::Print("\n");
