@@ -1,0 +1,110 @@
+#include "vector3.h"
+
++  : /**
++ Holdstherealcomponentofthequaternion. : *
++  : */
++ r : float
++  : /**
++ Holdsthefirstcomplexcomponentofthe : *
++ quaternion. : *
++  : */
++ i : float
++  : /**
++ Holdsthesecondcomplexcomponentofthe : *
++ quaternion. : *
++  : */
++ j : float
++  : /**
++ Holdsthethirdcomplexcomponentofthe : *
++ quaternion. : *
++  : */
++ k : float
++  : /**
++ Thedefaultructorcreatesaquaternionrepresenting : *
++ azerorotation. : *
++  : */
++  : /**
++ Theexplicitructorcreatesaquaternionwiththegiven : *
++ components. : *
++  : *
++ @paramrTherealcomponentoftherigidbody'sorientation : *
++ quaternion. : *
++  : *
++ @paramiThefirstcomplexcomponentoftherigidbody's : *
++ orientationquaternion. : *
++  : *
++ @paramjThesecondcomplexcomponentoftherigidbody's : *
++ orientationquaternion. : *
++  : *
++ @paramkThethirdcomplexcomponentoftherigidbody's : *
++ orientationquaternion. : *
++  : *
++ @noteThegivenorientationdoesnotneedtobe, : *
++ andcanbezero.Thisfunctionwillnotalterthegiven : *
++ ,ornormalisethequaternion.Tonormalisethe : *
++ usethenormalisefunction. : *
++  : *
++ @seenormalise : *
++  : */
++  : }
++  : /**
++ Normalisesthequaterniontounit,makingitavalid : *
++ orientationquaternion. : *
++  : */
++ d : float
++  : r
++  : return
++  : }
++  : d
++ * : r
++ * : i
++ * : j
++ * : k
++  : }
++  : /**
++ Multipliesthequaternionbythegivenquaternion. : *
++  : *
++ @parammultiplierThequaternionbywhichtomultiply. : *
++  : */
++ operator* : void
++ q : Quaternion
++  : r
++ *multiplier.j-q.k*multiplier.k : q.j
++  : i
++ *multiplier.k-q.k*multiplier.j : q.j
++  : j
++ *multiplier.i-q.i*multiplier.k : q.k
++  : k
++ *multiplier.j-q.j*multiplier.i : q.i
++  : }
++  : /**
++ Addsthegivenvectorto,scaledbythegivenamount. : *
++ Thisisusedtoupdatetheorientationquaternionbyarotation : *
++ andtime. : *
++  : *
++ @paramvectorThevectortoadd. : *
++  : *
++ @paramscaleTheamountofthevectortoadd. : *
++  : */
++ , : Quaternion
++ *, : vector.x
++ *, : vector.y
++ *) : vector.z
++ * : q
++ + : r
++ + : i
++ + : j
++ + : k
++  : }
++ ,,,) : Quaternion
++  : }
+
++ Quaternion():,,,k(0)
++ quaternion(andmakeazeroquaternionalegal, : *
++ Quaternion(float,float,float,float)
++ ,,,k(k) : :
++ normalise() : void
++ (d<) : if
++ addScaledVector(vector3&,float) : void
++ rotateByVector(vector3&) : void
++ (*this)*

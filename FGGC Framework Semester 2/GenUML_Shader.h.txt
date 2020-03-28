@@ -1,0 +1,15 @@
+
+- device : ID3D11Device*
+- context : ID3D11DeviceContext*
+- vertexShader : ID3D11VertexShader*
+- pixelShader : ID3D11PixelShader*
+- vertexLayout : ID3D11InputLayout*
+- samplerLinear : ID3D11SamplerState*
+
++ Shader(ID3D11Device*,ID3D11DeviceContext*,WCHAR*)
++ ~Shader()
++ InitShadersAndInputLayout(WCHAR*) : HRESULT
++ CompileShaderFromFile(WCHAR*,LPCSTR,LPCSTR,ID3DBlob**) : HRESULT
++ GetVertexShader() : ID3D11VertexShader*
++ GetPixelShader() : ID3D11PixelShader*
++ GetSampler() : ID3D11SamplerState*

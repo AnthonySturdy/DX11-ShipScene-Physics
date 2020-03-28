@@ -1,0 +1,12 @@
+#include "GameObject.h"
+
+- ,depth : int
+- vertices : std::vector<SimpleVertex>
+- short>indices : std::vector<unsigned
+- vertexBuffer : ID3D11Buffer*
+- indexBuffer : ID3D11Buffer*
+
++ GameObject_Plane(Material,ID3D11Device*,int,int)
++ CreatePlaneVertices() : std::vector<SimpleVertex>
++ short>CreatePlaneIndices() : std::vector<unsigned
++ CreateMesh(ID3D11Device*) : void

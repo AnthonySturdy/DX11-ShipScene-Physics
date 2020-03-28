@@ -1,0 +1,40 @@
+#include "Structures.h"
+#include "Debug.h"
+#include "Transform.h"
+#include "Appearance.h"
+#include "ParticleModel.h"
+#include "Rigidbody.h"
+#include "Collider.h"
+
+- pd3dDevice : ID3D11Device*
+- _transform : Transform
+- _appearance : Appearance
+- _particleModel : ParticleModel
+- _rigidbody : Rigidbody
+- _collider : Collider
+- shaderType : ShaderType
+- isActive : bool
+- isStatic : bool
+- _textureRV : ID3D11ShaderResourceView*
+- _parent : GameObject*
+
++ GameObject(std::string,Material,ID3D11Device*)
++ GameObject(Mesh,Material,ID3D11Device*)
++ ~GameObject()
++ GetIsActive() : bool
++ SetIsActive(bool) : void
++ GetIsStatic() : bool
++ SetIsStatic(bool) : void
++ GetTransform() : Transform*
++ GetAppearance() : Appearance*
++ GetParticleModel() : ParticleModel*
++ GetRigidBody() : Rigidbody*
++ GetCollider() : Collider*
++ SetTextureRV(ID3D11ShaderResourceView*) : void
++ GetTextureRV() : ID3D11ShaderResourceView*
++ HasTexture() : bool
++ SetShaderType(ShaderType) : void
++ GetShaderType() : ShaderType
++ SetParent(GameObject*) : void
++ Update(float) : void
++ Draw(ID3D11DeviceContext*) : void

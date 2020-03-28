@@ -1,0 +1,11 @@
+#include "Structures.h"
+#include "GameObject.h"
+#include "GameObject_Plane.h"
+#include "vector3.h"
+#include "json.hpp"	//https://github.com/nlohmann/json
+#include "DDSTextureLoader.h"
+
+
++ LoadFromFile(std::string,ID3D11Device*) : std::vector<GameObject*>
+- CreateObjectInScene(GameObject*,json,std::vector<GameObject*>&,ID3D11Device*) : void
+- StringToWstring(std::string) : std::wstring

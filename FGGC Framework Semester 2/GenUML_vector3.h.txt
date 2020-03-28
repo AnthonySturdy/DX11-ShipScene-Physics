@@ -1,0 +1,26 @@
+
++ ,,z : float
++ &operator+ : vector3
++ operator- : vector3&
++ operator* : vector3&
++ operator/ : vector3&
++ operator : vector3
+
++ vector3()
++ vector3(float,float,float)
++ vector3(vector3&)
++ operator+(vector3&) : vector3
++ operator-(vector3&) : vector3
++ operator*(vector3&) : vector3
++ operator/(vector3&) : vector3
++ dot_product(vector3&) : float
++ cross_product(vector3&) : vector3
++ normalisation() : vector3
++ normalization() : vector3
++ square() : float
++ distance(vector3&) : float
++ magnitude() : float
++ GetX() : float
++ GetY() : float
++ GetZ() : float
++ disp() : void

@@ -1,0 +1,70 @@
+#include "DDSTextureLoader.h"
+#include "resource.h"
+#include "Camera.h"
+#include "ParticleSystem.h"
+#include "SceneLoader.h"
+#include "Shader.h"
+#include "CommonStates.h"
+//#include "DDSTextureLoader.h"
+#include "Effects.h"
+#include "GeometricPrimitive.h"
+#include "Model.h"
+#include "PrimitiveBatch.h"
+#include "ScreenGrab.h"
+#include "SpriteBatch.h"
+#include "SpriteFont.h"
+#include "VertexTypes.h"
+#include "GameObject.h"
+#include "Debug.h"
+#include "Transform.h"
+#include "Structures.h"
+
+- _hInst : HINSTANCE
+- _hWnd : HWND
+- _driverType : D3D_DRIVER_TYPE
+- _featureLevel : D3D_FEATURE_LEVEL
+- _pd3dDevice : ID3D11Device*
+- _pImmediateContext : ID3D11DeviceContext*
+- _pSwapChain : IDXGISwapChain*
+- _pRenderTargetView : ID3D11RenderTargetView*
+-  : ID3D11BlendState*_transparency
+- _pVertexShader : ID3D11VertexShader*
+- _pPixelShader : ID3D11PixelShader*
+- _pVertexLayout : ID3D11InputLayout*
+- _pConstantBuffer : ID3D11Buffer*
+- _depthStencilView : ID3D11DepthStencilView*
+- _depthStencilBuffer : ID3D11Texture2D*
+- _errorTextureRV : ID3D11ShaderResourceView*
+- _pSamplerLinear : ID3D11SamplerState*
+- basicLight : Light
+- globalTime : float
+- _gameObjects : std::vector<GameObject*>
+- shaders : std::vector<Shader*>
+- particleSystem : ParticleSystem*
+- *_camera : Camera
+- _cameraOrbitRadius : float
+- _cameraOrbitRadiusMin : float
+- _cameraOrbitRadiusMax : float
+- _cameraOrbitAngleXZ : float
+- _cameraSpeed : float
+- _WindowHeight : UINT
+- _WindowWidth : UINT
+- _renderHeight : UINT
+- _renderWidth : UINT
+- DSLessEqual : ID3D11DepthStencilState*
+- RSCullNone : ID3D11RasterizerState*
+- CCWcullMode : ID3D11RasterizerState*
+- CWcullMode : ID3D11RasterizerState*
+- KeyOneIsPressed : bool
+
+- InitWindow(HINSTANCE,int) : HRESULT
+- InitDevice() : HRESULT
+- Cleanup() : void
+- CompileShaderFromFile(WCHAR*,LPCSTR,LPCSTR,ID3DBlob**) : HRESULT
+- InitShadersAndInputLayout() : HRESULT
++ Application()
++ ~Application()
++ Initialise(HINSTANCE,int) : HRESULT
++ HandleKeyboard(MSG) : bool
++ Update() : void
++ Draw() : void

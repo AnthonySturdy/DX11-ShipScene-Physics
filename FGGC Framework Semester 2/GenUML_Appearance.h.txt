@@ -1,0 +1,12 @@
+#include "Structures.h"
+#include "OBJLoader.h"
+
+- _mesh : Mesh
+- _material : Material
+
++ Appearance()
++ GetMesh() : Mesh*
++ GetMaterial() : Material*
++ LoadMesh(std::string,ID3D11Device*) : void
++ SetMesh(Mesh) : void
++ SetMaterial(Material) : void

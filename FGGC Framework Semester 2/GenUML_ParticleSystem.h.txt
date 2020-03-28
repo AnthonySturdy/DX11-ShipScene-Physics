@@ -1,0 +1,17 @@
+#include "GameObject.h"
+#include "Debug.h"
+#include "Collider.h"
+
+- numParticles : int
+- curParticleIndex : int
+- ParticleInfo>>particles : ,
+- pd3dDevice : ID3D11Device*
+
++ ParticleSystem(GameObject*,ParticleInfo,int,ID3D11Device*)
++ ~ParticleSystem()
++ Update(float) : void
++ Draw(ID3D11DeviceContext*,ID3D11Buffer*,ConstantBuffer) : void
++ Emit() : void
++ Emit(ParticleInfo&) : void
++ SetParticleInfo(ParticleInfo) : void
++ ParticleInfo>>*GetParticles() : ,

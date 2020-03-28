@@ -1,0 +1,27 @@
+#include "ParticleModel.h"
+#include "Quaternion.h"
+#include "vector3.h"
+#include "Debug.h"
+
+- particleModel : ParticleModel*
+- quaternion : Quaternion
+- inertiaTensor : XMMATRIX
+- curForceDir : XMFLOAT3
+- torque : XMVECTOR
+- angularAcceleration : XMVECTOR
+- angularVelocity : XMVECTOR
+- angularDamping : float
+- angularOrientation : XMMATRIX
+
+- CalculateTorque(XMFLOAT3,XMFLOAT3) : XMVECTOR
+- CalculateInertiaTensor(float,float,float) : XMMATRIX
+- CalculateAngularAcceleration() : XMVECTOR
+- CalculateAngularVelocity(float) : XMVECTOR
+- ApplyDamping(float) : XMVECTOR
+- CalculateAngularOrientation(XMFLOAT3,float) : XMMATRIX
++ Rigidbody()
++ Rigidbody(float,float,float,ParticleModel*)
++ Update(float) : void
++ GetAngularOrientation() : XMMATRIX*
++ SetAngularDamping(float) : void
++ ApplyForce(XMFLOAT3,XMFLOAT3) : void

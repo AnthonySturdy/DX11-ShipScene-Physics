@@ -1,0 +1,19 @@
+
+- _position : XMFLOAT3
+- _rotation : XMMATRIX
+- _scale : XMFLOAT3
+- _world : XMFLOAT4X4
+
++ Transform()
++ Update(float) : void
++ SetPosition(XMFLOAT3) : void
++ SetPosition(float,float,float) : void
++ GetPosition() : XMFLOAT3
++ SetScale(XMFLOAT3) : void
++ SetScale(float,float,float) : void
++ GetScale() : XMFLOAT3
++ SetRotation(XMFLOAT3) : void
++ SetRotation(XMMATRIX) : void
++ GetRotation() : XMMATRIX
++ GetWorldFloat4X4() : XMFLOAT4X4*
++ GetWorldMatrix() : XMMATRIX

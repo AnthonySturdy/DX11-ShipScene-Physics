@@ -1,0 +1,37 @@
+#include "Transform.h"
+#include "Debug.h"
+
+- velocity : XMFLOAT3
+- acceleration : XMFLOAT3
+- netForce : XMFLOAT3
+- transform : Transform*
+- isColliding : int
+- mass : float
+- forces : Forces
+
++ ParticleModel()
++ ParticleModel(XMFLOAT3,XMFLOAT3)
++ ResetPhysics() : void
++ ResetForces() : void
++ GetVelocity() : XMFLOAT3
++ SetVelocity(XMFLOAT3) : void
++ SetVelocity(float,float,float) : void
++ GetAcceleration() : XMFLOAT3
++ SetAcceleration(XMFLOAT3) : void
++ SetAcceleration(float,float,float) : void
++ GetNetforce() : XMFLOAT3
++ SetNetforce(XMFLOAT3) : void
++ SetNetforce(float,float,float) : void
++ GetTransform() : Transform*
++ SetTransform(Transform*) : void
++ SetIsColliding(bool) : void
++ GetMass() : int
++ SetMass(int) : void
++ SetThrust(XMFLOAT3) : void
++ SetFriction(XMFLOAT3) : void
++ SetGravity(XMFLOAT3) : void
++ MoveConstVelocity(float) : void
++ MoveConstAcceleration(float) : void
++ Update(float) : void
++ UpdateNetForce() : void
++ UpdateAcceleration() : void

@@ -1,0 +1,15 @@
+#include "Structures.h"
+
+- box : Box3D
+- r : float
+
+- CheckCollision(XMFLOAT3,float,XMFLOAT3,float) : bool
+- CheckCollision(XMFLOAT3,float,XMFLOAT3,Box3D) : bool
+- CheckCollision(XMFLOAT3,Box3D,XMFLOAT3,float) : bool
+- CheckCollision(XMFLOAT3,Box3D,XMFLOAT3,Box3D) : bool
++ Collider()
++ GetBoundingBox() : Box3D
++ GetRadius() : float
++ SetBoundingBox(Box3D) : void
++ SetRadius(float) : void
++ CheckCollision(XMFLOAT3,Collider*,XMFLOAT3,Collider*) : bool

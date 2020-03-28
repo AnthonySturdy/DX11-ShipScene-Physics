@@ -1,0 +1,24 @@
+
+- _eye : XMFLOAT3
+- _at : XMFLOAT3
+- _up : XMFLOAT3
+- _windowWidth : FLOAT
+- _windowHeight : FLOAT
+- _nearDepth : FLOAT
+- _farDepth : FLOAT
+- _view : XMFLOAT4X4
+- _projection : XMFLOAT4X4
+
++ Camera(XMFLOAT3,XMFLOAT3,XMFLOAT3,FLOAT,FLOAT,FLOAT,FLOAT)
++ ~Camera()
++ Update() : void
++ GetView() : XMFLOAT4X4
++ GetProjection() : XMFLOAT4X4
++ GetViewProjection() : XMFLOAT4X4
++ GetPosition() : XMFLOAT3
++ GetLookAt() : XMFLOAT3
++ GetUp() : XMFLOAT3
++ SetPosition(XMFLOAT3) : void
++ SetLookAt(XMFLOAT3) : void
++ SetUp(XMFLOAT3) : void
++ Reshape(FLOAT,FLOAT,FLOAT,FLOAT) : void

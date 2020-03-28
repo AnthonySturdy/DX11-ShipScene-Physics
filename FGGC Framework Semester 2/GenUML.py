@@ -23,6 +23,7 @@ def ProcessFile(fileName):
 
     access = ' '        # ' ' = Don't process, '-' = private, '+' = public, '#' = protected
 
+    includes = []
     variables = []
     functions = []
 
@@ -30,16 +31,22 @@ def ProcessFile(fileName):
     for line in file:
         if "public:" in line:
             access = '+'
-            continue;
+            continue
         elif "private:" in line:
             access = '-'
-            continue;
+            continue
         elif "protected:" in line:
             access = '#'
-            continue;
+            continue
         elif "};" in line:
             access = ' '
-            continue;
+            continue
+        elif "include \"" in line:
+            includes.append(line)
+            continue
+        elif "include\"" in line:
+            includes.append(line)
+            continue
         
         # If line is to be processed
         if access != ' ':
@@ -64,6 +71,7 @@ def ProcessFile(fileName):
             strippedLine = strippedLine.replace("\t", "")
             strippedLine = strippedLine.replace("const", "")
             strippedLine = strippedLine.replace("static", "")
+            strippedLine = strippedLine.replace("inline", "")
 
             # Remove multiple whitespace
             strippedLine = " ".join(strippedLine.split())
@@ -71,19 +79,31 @@ def ProcessFile(fileName):
             # Split string into array
             lineArray = strippedLine.split(' ')
 
-            # If lineArray length is 1 then must be constructer/destructor, otherwise is variable or function
-            if len(lineArray) > 1:
-                s = access + ' ' + ' '.join(lineArray[:-1]) + ' ' + lineArray[-1]
-                a = s.split(' ')
-                a.insert(2, ":")
-                s2 = " ".join(a)
-                # Check if line is variable or function
-                if '(' in strippedLine:
-                    functions.append(s2)
-                else:
-                    variables.append(s2)
+            # Remove variable names from arguments (not needed)
+            for i in range(0, len(lineArray)):
+                if "," in lineArray[i]:
+                    lineArray[i] = ","
+                if ")" in lineArray[i] and "(" not in lineArray[i]:
+                    lineArray[i] = ")"
+
+            #Re-arrange type and name, add the :
+            if "(" not in lineArray[0]:
+                lineArray.append(lineArray.pop(0))
+                lineArray.insert(-1, " : ")
+
+            # Create final string
+            finalString = access + ' ' + ''.join(lineArray)
+
+            # Determine which array to add final string to
+            if "(" in finalString:
+                functions.append(finalString)
             else:
-                functions.append(access + ' ' + lineArray[0])
+                variables.append(finalString)
+            
+    for x in includes:
+        writeFile.write(x)
+    
+    writeFile.write("\n")
 
     for x in variables:
         writeFile.write(x + "\n")
