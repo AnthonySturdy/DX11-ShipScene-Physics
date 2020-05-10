@@ -1,0 +1,5 @@
+1) Extract "FGGC Framework Semester 2" folder
+2) Open "DX11 Framework.sln" using Visual Studio
+3) Press "Local Windows Debugger" at top of the Visual Studio window, which will compile and run application.
+
+For controls, see the last page of the Report.
